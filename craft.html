@@ -3416,14 +3416,15 @@ function renderPreviewNode(
     }
 
 
-    if (
-      node.backgroundColor
-    ) {
-
-      el.style.backgroundColor =
-        node.backgroundColor;
-
-    }
+    /*
+     * LINE Box background:
+     * - backgroundColor
+     * - background: { type: "linearGradient", ... }
+     */
+    applyFlexBackground(
+      el,
+      node
+    );
 
 
     if (
@@ -4682,16 +4683,132 @@ function renderProperties() {
     );
 
 
-    addColorField(
+    /*
+     * LINE background editor.
+     *
+     * A Box can use either:
+     *   backgroundColor: "#RRGGBB"
+     *
+     * or:
+     *   background: {
+     *     type: "linearGradient",
+     *     angle: "180deg",
+     *     startColor: "#...",
+     *     endColor: "#..."
+     *   }
+     */
+    const backgroundMode =
+      node.background?.type === "linearGradient"
+        ? "linearGradient"
+        : node.backgroundColor
+          ? "solid"
+          : "none";
+
+
+    addSelectField(
       root,
-      "Background",
-      node.backgroundColor || "#ffffff",
+      "Background Type",
+      backgroundMode,
+      [
+        "none",
+        "solid",
+        "linearGradient"
+      ],
       value =>
-        updatePropertyLive(
-          "backgroundColor",
+        setBoxBackgroundMode(
+          node,
           value
         )
     );
+
+
+    if (
+      backgroundMode === "solid"
+    ) {
+
+      addColorField(
+        root,
+        "Background Color",
+        node.backgroundColor || "#FFFFFF",
+        value =>
+          updatePropertyLive(
+            "backgroundColor",
+            value
+          )
+      );
+
+    }
+
+
+    if (
+      backgroundMode === "linearGradient"
+    ) {
+
+      addTextField(
+        root,
+        "Gradient Angle",
+        node.background?.angle || "0deg",
+        value =>
+          updateGradientProperty(
+            node,
+            "angle",
+            value
+          )
+      );
+
+
+      addColorField(
+        root,
+        "Gradient Start Color",
+        node.background?.startColor || "#FFFFFF",
+        value =>
+          updateGradientProperty(
+            node,
+            "startColor",
+            value
+          )
+      );
+
+
+      addColorField(
+        root,
+        "Gradient End Color",
+        node.background?.endColor || "#000000",
+        value =>
+          updateGradientProperty(
+            node,
+            "endColor",
+            value
+          )
+      );
+
+
+      addTextField(
+        root,
+        "Gradient Center Color (optional)",
+        node.background?.centerColor || "",
+        value =>
+          updateGradientProperty(
+            node,
+            "centerColor",
+            value
+          )
+      );
+
+
+      addTextField(
+        root,
+        "Gradient Center Position",
+        node.background?.centerPosition || "",
+        value =>
+          updateGradientProperty(
+            node,
+            "centerPosition",
+            value
+          )
+      );
+
+    }
 
 
     addTextField(
@@ -4716,7 +4833,8 @@ function renderProperties() {
         "center",
         "end",
         "space-between",
-        "space-around"
+        "space-around",
+        "space-evenly"
       ],
       value =>
         updateProperty(
@@ -5391,6 +5509,142 @@ function updateNumberProperty(
       Number(
         value
       );
+
+  }
+
+
+  refreshModelViews(
+    false
+  );
+
+}
+
+
+/* ============================================================
+   BOX BACKGROUND EDITOR
+============================================================ */
+
+function setBoxBackgroundMode(
+  node,
+  mode
+) {
+
+  if (
+    !node ||
+    node.type !== "box"
+  ) {
+
+    return;
+
+  }
+
+
+  if (
+    mode === "none"
+  ) {
+
+    delete node.background;
+    delete node.backgroundColor;
+
+  }
+
+
+  else if (
+    mode === "solid"
+  ) {
+
+    delete node.background;
+
+
+    if (
+      !node.backgroundColor
+    ) {
+
+      node.backgroundColor =
+        "#FFFFFF";
+
+    }
+
+  }
+
+
+  else if (
+    mode === "linearGradient"
+  ) {
+
+    delete node.backgroundColor;
+
+
+    if (
+      !node.background ||
+      node.background.type !== "linearGradient"
+    ) {
+
+      node.background = {
+        type: "linearGradient",
+        angle: "180deg",
+        startColor: "#03002E",
+        endColor: "#A5466F"
+      };
+
+    }
+
+  }
+
+
+  refreshModelViews(
+    true
+  );
+
+}
+
+
+function updateGradientProperty(
+  node,
+  key,
+  value
+) {
+
+  if (
+    !node
+  ) {
+
+    return;
+
+  }
+
+
+  if (
+    !node.background ||
+    node.background.type !== "linearGradient"
+  ) {
+
+    node.background = {
+      type: "linearGradient",
+      angle: "180deg",
+      startColor: "#03002E",
+      endColor: "#A5466F"
+    };
+
+  }
+
+
+  if (
+    value === ""
+  ) {
+
+    delete node.background[
+      key
+    ];
+
+  }
+
+  else {
+
+    node.background[
+      key
+    ] =
+      value;
 
   }
 
@@ -6534,6 +6788,252 @@ function getDefaultSelectionPath() {
 
 
 /* ============================================================
+   LINE BOX BACKGROUND → CSS
+============================================================ */
+
+/*
+ * LINE Flex Box supports:
+ *
+ * 1) Solid color
+ *    "backgroundColor": "#03002E"
+ *
+ * 2) Linear gradient
+ *    "background": {
+ *      "type": "linearGradient",
+ *      "angle": "180deg",
+ *      "startColor": "#03002E",
+ *      "endColor": "#A5466F"
+ *    }
+ *
+ * Optional three-color gradient:
+ *    "centerColor": "#6D285B",
+ *    "centerPosition": "50%"
+ */
+function applyFlexBackground(
+  el,
+  node
+) {
+
+  if (
+    !el ||
+    !node
+  ) {
+
+    return;
+
+  }
+
+
+  const background =
+    node.background;
+
+
+  if (
+    background &&
+    background.type === "linearGradient"
+  ) {
+
+    const angle =
+      normalizeGradientAngle(
+        background.angle ||
+        "0deg"
+      );
+
+
+    const startColor =
+      background.startColor ||
+      "#FFFFFF";
+
+
+    const endColor =
+      background.endColor ||
+      startColor;
+
+
+    if (
+      background.centerColor
+    ) {
+
+      const centerPosition =
+        normalizeGradientPosition(
+          background.centerPosition ||
+          "50%"
+        );
+
+
+      el.style.backgroundImage =
+        `linear-gradient(` +
+        `${angle}, ` +
+        `${startColor} 0%, ` +
+        `${background.centerColor} ${centerPosition}, ` +
+        `${endColor} 100%` +
+        `)`;
+
+    }
+
+    else {
+
+      el.style.backgroundImage =
+        `linear-gradient(` +
+        `${angle}, ` +
+        `${startColor} 0%, ` +
+        `${endColor} 100%` +
+        `)`;
+
+    }
+
+
+    /*
+     * Clear a previously assigned solid CSS background color
+     * when switching the same preview node to gradient mode.
+     */
+    el.style.backgroundColor =
+      "transparent";
+
+
+    return;
+
+  }
+
+
+  /*
+   * Solid background fallback.
+   */
+  if (
+    node.backgroundColor
+  ) {
+
+    el.style.backgroundImage =
+      "none";
+
+
+    el.style.backgroundColor =
+      node.backgroundColor;
+
+  }
+
+}
+
+
+function normalizeGradientAngle(
+  value
+) {
+
+  if (
+    value === undefined ||
+    value === null ||
+    value === ""
+  ) {
+
+    return "0deg";
+
+  }
+
+
+  if (
+    typeof value === "number"
+  ) {
+
+    return `${value}deg`;
+
+  }
+
+
+  const text =
+    String(
+      value
+    ).trim();
+
+
+  if (
+    /^-?\d+(\.\d+)?deg$/i
+      .test(
+        text
+      )
+  ) {
+
+    return text;
+
+  }
+
+
+  if (
+    /^-?\d+(\.\d+)?$/
+      .test(
+        text
+      )
+  ) {
+
+    return `${text}deg`;
+
+  }
+
+
+  return text;
+
+}
+
+
+function normalizeGradientPosition(
+  value
+) {
+
+  if (
+    value === undefined ||
+    value === null ||
+    value === ""
+  ) {
+
+    return "50%";
+
+  }
+
+
+  if (
+    typeof value === "number"
+  ) {
+
+    return `${value}%`;
+
+  }
+
+
+  const text =
+    String(
+      value
+    ).trim();
+
+
+  if (
+    /^-?\d+(\.\d+)?%$/
+      .test(
+        text
+      )
+  ) {
+
+    return text;
+
+  }
+
+
+  if (
+    /^-?\d+(\.\d+)?$/
+      .test(
+        text
+      )
+  ) {
+
+    return `${text}%`;
+
+  }
+
+
+  return text;
+
+}
+
+
+/* ============================================================
    FLEX → CSS
 ============================================================ */
 
@@ -6756,14 +7256,47 @@ function normalizeColor(
   color
 ) {
 
-  return (
+  const text =
+    String(
+      color ||
+      ""
+    ).trim();
+
+
+  /*
+   * input[type="color"] accepts #RRGGBB.
+   * LINE also allows #RRGGBBAA in several color fields,
+   * so keep the alpha-aware value in the text input while
+   * using the first six RGB digits for the color picker.
+   */
+  if (
+    /^#[0-9A-Fa-f]{8}$/
+      .test(
+        text
+      )
+  ) {
+
+    return text.slice(
+      0,
+      7
+    );
+
+  }
+
+
+  if (
     /^#[0-9A-Fa-f]{6}$/
       .test(
-        color
+        text
       )
-  )
-    ? color
-    : "#ffffff";
+  ) {
+
+    return text;
+
+  }
+
+
+  return "#ffffff";
 
 }
 
