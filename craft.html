@@ -2,977 +2,1070 @@
 <html lang="th">
 
 <head>
-<meta charset="UTF-8">
+  <meta charset="UTF-8">
 
-<meta
-  name="viewport"
-  content="width=device-width, initial-scale=1, viewport-fit=cover"
-/>
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, viewport-fit=cover"
+  >
 
-<title>LINE Flex Studio</title>
+  <title>LINE Flex Studio</title>
 
-<script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+  <!-- LINE LIFF SDK -->
+  <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
 
-<style>
+  <style>
+    :root {
+      --primary: #06c755;
+      --primary-dark: #05a947;
+      --brand: #087b40;
 
-:root {
-  --primary: #06c755;
-  --primary-dark: #05a947;
+      --background: #f5f7f6;
+      --card: #ffffff;
+      --surface: #f9fbfa;
 
-  --bg: #f5f7f6;
-  --card: #ffffff;
-  --surface: #f9fbfa;
+      --border: #dfe6e2;
 
-  --border: #dfe6e2;
+      --text: #17211c;
+      --muted: #718078;
 
-  --text: #17211c;
-  --muted: #718078;
+      --danger: #d92d20;
+      --blue: #2563eb;
 
-  --danger: #d92d20;
+      --radius: 12px;
+    }
 
-  --blue: #2563eb;
+    * {
+      box-sizing: border-box;
+    }
 
-  --radius: 12px;
-}
+    body {
+      margin: 0;
 
-* {
-  box-sizing: border-box;
-}
+      font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
 
-body {
-  margin: 0;
+      background: var(--background);
+      color: var(--text);
+    }
 
-  font-family:
-    Inter,
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    sans-serif;
+    /* =====================================================
+       HEADER
+    ===================================================== */
 
-  background: var(--bg);
-  color: var(--text);
-}
+    header {
+      min-height: 68px;
 
-/* =========================================
-   HEADER
-========================================= */
+      background: white;
+      border-bottom: 1px solid var(--border);
 
-header {
-  min-height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
 
-  background: white;
+      gap: 20px;
 
-  border-bottom: 1px solid var(--border);
+      padding: 12px 20px;
 
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+      position: sticky;
+      top: 0;
 
-  padding: 12px 20px;
+      z-index: 30;
+    }
 
-  position: sticky;
-  top: 0;
-  z-index: 30;
-}
+    .brand h1 {
+      margin: 0;
+      font-size: 20px;
+    }
 
-.brand h1 {
-  margin: 0;
+    .brand small {
+      color: var(--muted);
+    }
 
-  font-size: 20px;
-}
+    .user-info {
+      display: flex;
+      align-items: center;
 
-.brand small {
-  color: var(--muted);
-}
+      gap: 8px;
 
-.user-info {
-  font-size: 13px;
-  color: var(--muted);
-}
+      font-size: 13px;
+      color: var(--muted);
+    }
 
-/* =========================================
-   MAIN
-========================================= */
+    .user-avatar {
+      width: 34px;
+      height: 34px;
 
-.app {
-  display: grid;
+      border-radius: 50%;
 
-  grid-template-columns:
-    260px
-    minmax(300px, 1fr)
-    380px;
+      object-fit: cover;
 
-  gap: 14px;
+      background: #edf2ef;
+    }
 
-  padding: 14px;
+    /* =====================================================
+       MAIN LAYOUT
+    ===================================================== */
 
-  min-height: calc(100vh - 68px);
-}
+    .app {
+      display: grid;
 
-.panel {
-  background: white;
+      grid-template-columns:
+        260px
+        minmax(420px, 1fr)
+        380px;
 
-  border: 1px solid var(--border);
+      gap: 14px;
 
-  border-radius: var(--radius);
+      padding: 14px;
 
-  overflow: hidden;
-}
+      min-height: calc(100vh - 68px);
+    }
 
-.panel-header {
-  min-height: 50px;
+    .panel {
+      background: white;
 
-  padding: 12px 14px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
 
-  border-bottom: 1px solid var(--border);
+      overflow: hidden;
+    }
 
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+    .panel-header {
+      min-height: 52px;
 
-  font-weight: 700;
-}
+      padding: 12px 14px;
 
-.panel-body {
-  padding: 14px;
-}
+      border-bottom: 1px solid var(--border);
 
-/* =========================================
-   BUTTONS
-========================================= */
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
 
-button {
-  border: 0;
+      gap: 10px;
 
-  border-radius: 7px;
+      font-weight: 700;
+    }
 
-  padding: 9px 12px;
+    .panel-body {
+      padding: 14px;
+    }
 
-  cursor: pointer;
+    /* =====================================================
+       BUTTON
+    ===================================================== */
 
-  font-weight: 600;
+    button {
+      border: 0;
+      border-radius: 7px;
 
-  font-size: 13px;
-}
+      padding: 9px 12px;
 
-button:hover {
-  opacity: .9;
-}
+      cursor: pointer;
 
-.btn-primary {
-  background: var(--primary);
-  color: white;
-}
+      font-weight: 600;
+      font-size: 13px;
 
-.btn-dark {
-  background: #17211c;
-  color: white;
-}
+      transition: 0.15s;
+    }
 
-.btn-light {
-  background: #eef3f0;
-  color: #24352c;
-}
+    button:hover {
+      opacity: 0.92;
+    }
 
-.btn-blue {
-  background: var(--blue);
-  color: white;
-}
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
 
-.btn-danger {
-  background: #fff1f0;
-  color: var(--danger);
-}
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+    }
 
-.btn-small {
-  padding: 6px 8px;
+    .btn-dark {
+      background: #17211c;
+      color: white;
+    }
 
-  font-size: 12px;
-}
+    .btn-light {
+      background: #eef3f0;
+      color: #24352c;
+    }
 
-/* =========================================
-   INPUT
-========================================= */
+    .btn-blue {
+      background: var(--blue);
+      color: white;
+    }
 
-label {
-  display: block;
+    .btn-danger {
+      background: #fff1f0;
+      color: var(--danger);
+    }
 
-  font-size: 12px;
-  font-weight: 650;
+    .btn-small {
+      padding: 6px 8px;
+      font-size: 12px;
+    }
 
-  margin-bottom: 5px;
-}
+    /* =====================================================
+       FORM
+    ===================================================== */
 
-input,
-select,
-textarea {
-  width: 100%;
+    label {
+      display: block;
 
-  border: 1px solid var(--border);
+      font-size: 12px;
+      font-weight: 650;
 
-  border-radius: 7px;
+      margin-bottom: 5px;
+    }
 
-  padding: 9px 10px;
+    input,
+    select,
+    textarea {
+      width: 100%;
 
-  background: white;
+      border: 1px solid var(--border);
+      border-radius: 7px;
 
-  color: var(--text);
+      padding: 9px 10px;
 
-  font-size: 13px;
+      background: white;
+      color: var(--text);
 
-  outline: none;
-}
+      font-size: 13px;
 
-input:focus,
-select:focus,
-textarea:focus {
-  border-color: var(--primary);
-}
+      outline: none;
+    }
 
-.field {
-  margin-bottom: 12px;
-}
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: var(--primary);
+    }
 
-.field-row {
-  display: grid;
+    .field {
+      margin-bottom: 12px;
+    }
 
-  grid-template-columns: 1fr 1fr;
+    /* =====================================================
+       TEMPLATE LIBRARY
+    ===================================================== */
 
-  gap: 8px;
-}
+    .template-search {
+      margin-bottom: 10px;
+    }
 
-/* =========================================
-   TEMPLATE LIBRARY
-========================================= */
+    .template-list {
+      max-height: calc(100vh - 230px);
+      overflow-y: auto;
+    }
 
-.template-search {
-  margin-bottom: 10px;
-}
+    .template-item {
+      padding: 10px;
 
-.template-list {
-  max-height: calc(100vh - 230px);
+      border: 1px solid var(--border);
+      border-radius: 8px;
 
-  overflow-y: auto;
-}
+      margin-bottom: 7px;
 
-.template-item {
-  padding: 10px;
+      cursor: pointer;
 
-  border: 1px solid var(--border);
+      transition: 0.15s;
+    }
 
-  border-radius: 8px;
+    .template-item:hover,
+    .template-item.active {
+      border-color: var(--primary);
+      background: #f1fff6;
+    }
 
-  margin-bottom: 7px;
+    .template-name {
+      font-weight: 650;
+      font-size: 13px;
 
-  cursor: pointer;
-}
+      word-break: break-word;
+    }
 
-.template-item:hover,
-.template-item.active {
-  border-color: var(--primary);
+    .template-date {
+      margin-top: 4px;
 
-  background: #f1fff6;
-}
+      font-size: 10px;
+      color: var(--muted);
+    }
 
-.template-name {
-  font-weight: 650;
+    .empty-state {
+      text-align: center;
 
-  font-size: 13px;
-}
+      font-size: 12px;
+      color: var(--muted);
 
-.template-date {
-  margin-top: 4px;
+      padding: 25px 8px;
+    }
 
-  font-size: 10px;
+    /* =====================================================
+       EDITOR
+    ===================================================== */
 
-  color: var(--muted);
-}
+    .editor-toolbar {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
 
-/* =========================================
-   CENTER EDITOR
-========================================= */
+    .metadata {
+      display: grid;
 
-.editor-toolbar {
-  display: flex;
+      grid-template-columns: 1fr 1fr;
 
-  gap: 6px;
+      gap: 10px;
 
-  flex-wrap: wrap;
-}
+      padding: 14px;
 
-.metadata {
-  display: grid;
+      border-bottom: 1px solid var(--border);
+    }
 
-  grid-template-columns: 1fr 1fr;
+    /* =====================================================
+       COMPONENT TOOLBAR
+    ===================================================== */
 
-  gap: 10px;
+    .component-toolbar {
+      padding: 10px 14px;
 
-  padding: 14px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
 
-  border-bottom: 1px solid var(--border);
-}
+      gap: 6px;
 
-/* =========================================
-   COMPONENT TOOLBAR
-========================================= */
+      border-bottom: 1px solid var(--border);
 
-.component-toolbar {
-  padding: 10px 14px;
+      background: var(--surface);
+    }
 
-  display: flex;
+    /* =====================================================
+       DESIGN AREA
+    ===================================================== */
 
-  flex-wrap: wrap;
+    .design-area {
+      display: grid;
 
-  gap: 6px;
+      grid-template-columns: 230px 1fr;
 
-  border-bottom: 1px solid var(--border);
+      min-height: 650px;
+    }
 
-  background: var(--surface);
-}
+    /* =====================================================
+       STRUCTURE TREE
+    ===================================================== */
 
-/* =========================================
-   DESIGN AREA
-========================================= */
+    .tree-area {
+      border-right: 1px solid var(--border);
 
-.design-area {
-  display: grid;
+      padding: 12px;
 
-  grid-template-columns: 230px 1fr;
+      overflow: auto;
 
-  min-height: 650px;
-}
+      max-height: calc(100vh - 270px);
+    }
 
-/* =========================================
-   TREE
-========================================= */
+    .tree-title {
+      font-weight: 700;
 
-.tree-area {
-  border-right: 1px solid var(--border);
+      font-size: 11px;
 
-  padding: 12px;
+      letter-spacing: 0.5px;
 
-  overflow: auto;
+      margin-bottom: 10px;
 
-  max-height: calc(100vh - 270px);
-}
+      color: var(--muted);
+    }
 
-.tree-title {
-  font-weight: 700;
+    .tree-row {
+      font-size: 12px;
 
-  font-size: 12px;
+      padding: 6px 7px;
 
-  margin-bottom: 10px;
+      cursor: pointer;
 
-  color: var(--muted);
-}
+      border-radius: 6px;
 
-.tree-row {
-  font-size: 12px;
+      margin-bottom: 2px;
 
-  padding: 6px 7px;
+      white-space: nowrap;
+    }
 
-  cursor: pointer;
+    .tree-row:hover {
+      background: #f2f5f3;
+    }
 
-  border-radius: 6px;
+    .tree-row.selected {
+      background: #e7f8ed;
 
-  margin-bottom: 2px;
+      color: var(--brand);
 
-  white-space: nowrap;
-}
+      font-weight: 700;
+    }
 
-.tree-row:hover {
-  background: #f2f5f3;
-}
+    /* =====================================================
+       PREVIEW
+    ===================================================== */
 
-.tree-row.selected {
-  background: #e7f8ed;
+    .preview-area {
+      background:
+        radial-gradient(
+          circle at 1px 1px,
+          #dfe5e1 1px,
+          transparent 1px
+        );
 
-  color: #057a36;
+      background-size: 18px 18px;
 
-  font-weight: 700;
-}
+      padding: 30px;
 
-/* =========================================
-   PREVIEW
-========================================= */
+      overflow: auto;
 
-.preview-area {
-  background:
-    radial-gradient(
-      circle at 1px 1px,
-      #dfe5e1 1px,
-      transparent 1px
-    );
+      display: flex;
 
-  background-size: 18px 18px;
+      justify-content: center;
+      align-items: flex-start;
+    }
 
-  padding: 30px;
+    .flex-preview {
+      width: 350px;
 
-  overflow: auto;
+      min-height: 120px;
 
-  display: flex;
+      background: white;
 
-  justify-content: center;
+      border-radius: 15px;
 
-  align-items: flex-start;
-}
+      overflow: hidden;
 
-.flex-preview {
-  width: 350px;
+      box-shadow:
+        0 8px 25px rgba(0, 0, 0, 0.12);
 
-  min-height: 150px;
+      flex-shrink: 0;
+    }
 
-  background: white;
+    .preview-section {
+      padding: 16px;
+    }
 
-  border-radius: 15px;
+    .preview-box {
+      display: flex;
+      min-width: 0;
+    }
 
-  overflow: hidden;
+    .preview-element {
+      cursor: pointer;
+      position: relative;
+    }
 
-  box-shadow:
-    0 8px 25px rgba(0,0,0,.12);
-}
+    .preview-element.selected-element {
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
 
-.preview-section {
-  padding: 16px;
-}
+    /* =====================================================
+       INSPECTOR
+    ===================================================== */
 
-.preview-box {
-  display: flex;
+    .inspector {
+      max-height: calc(100vh - 96px);
 
-  min-width: 0;
-}
+      overflow-y: auto;
+    }
 
-.preview-element {
-  cursor: pointer;
+    .inspector-section {
+      padding: 14px;
 
-  position: relative;
-}
+      border-bottom: 1px solid var(--border);
+    }
 
-.preview-element.selected-element {
-  outline:
-    2px solid var(--primary);
+    .inspector-section h3 {
+      font-size: 13px;
 
-  outline-offset: 2px;
-}
+      margin: 0 0 12px;
+    }
 
-/* =========================================
-   INSPECTOR
-========================================= */
+    .element-type {
+      display: inline-block;
 
-.inspector {
-  max-height: calc(100vh - 68px);
+      padding: 4px 8px;
 
-  overflow-y: auto;
-}
+      border-radius: 50px;
 
-.inspector-section {
-  padding: 14px;
+      background: #eaf8ef;
+      color: var(--brand);
 
-  border-bottom: 1px solid var(--border);
-}
+      font-size: 11px;
+      font-weight: 700;
 
-.inspector-section h3 {
-  font-size: 13px;
+      margin-bottom: 12px;
+    }
 
-  margin:
-    0
-    0
-    12px;
-}
+    /* =====================================================
+       JSON
+    ===================================================== */
 
-.element-type {
-  display: inline-block;
+    #jsonEditor,
+    #elementJsonEditor {
+      font-family:
+        "SFMono-Regular",
+        Consolas,
+        Monaco,
+        monospace;
 
-  padding: 4px 8px;
+      line-height: 1.5;
 
-  border-radius: 50px;
+      font-size: 12px;
 
-  background: #eaf8ef;
+      resize: vertical;
+    }
 
-  color: #087b40;
+    #jsonEditor {
+      height: 360px;
+    }
 
-  font-size: 11px;
+    #elementJsonEditor {
+      height: 200px;
+    }
 
-  font-weight: 700;
+    /* =====================================================
+       API STATUS
+    ===================================================== */
 
-  margin-bottom: 12px;
-}
+    .api-dot {
+      width: 8px;
+      height: 8px;
 
-/* =========================================
-   JSON EDITOR
-========================================= */
+      display: inline-block;
 
-#jsonEditor,
-#elementJsonEditor {
-  font-family:
-    "SFMono-Regular",
-    Consolas,
-    monospace;
+      border-radius: 50%;
 
-  line-height: 1.5;
+      background: #aaa;
+    }
 
-  font-size: 12px;
+    .api-dot.online {
+      background: #06c755;
+    }
 
-  resize: vertical;
-}
+    .api-dot.offline {
+      background: #d92d20;
+    }
 
-#jsonEditor {
-  height: 350px;
-}
+    /* =====================================================
+       STATUS TOAST
+    ===================================================== */
 
-#elementJsonEditor {
-  height: 180px;
-}
+    .status {
+      position: fixed;
 
-/* =========================================
-   STATUS
-========================================= */
+      bottom: 15px;
+      right: 15px;
 
-.status {
-  position: fixed;
+      max-width: 420px;
 
-  bottom: 15px;
-  right: 15px;
+      background: #17211c;
+      color: white;
 
-  max-width: 420px;
+      border-radius: 8px;
 
-  background: #17211c;
+      padding: 10px 14px;
 
-  color: white;
+      font-size: 12px;
 
-  border-radius: 8px;
+      box-shadow:
+        0 8px 30px rgba(0, 0, 0, 0.2);
 
-  padding: 10px 14px;
+      z-index: 999;
 
-  font-size: 12px;
+      display: none;
+    }
 
-  box-shadow:
-    0 8px 30px rgba(0,0,0,.2);
+    .status.success {
+      background: var(--brand);
+    }
 
-  z-index: 99;
+    .status.error {
+      background: #b42318;
+    }
 
-  display: none;
-}
+    /* =====================================================
+       RESPONSIVE
+    ===================================================== */
 
-.status.success {
-  background: #087b40;
-}
+    @media (max-width: 1150px) {
+      .app {
+        grid-template-columns:
+          220px
+          1fr;
+      }
 
-.status.error {
-  background: #b42318;
-}
+      .inspector {
+        grid-column: 1 / -1;
 
-/* =========================================
-   MOBILE
-========================================= */
+        max-height: none;
+      }
+    }
 
-@media(max-width: 1150px) {
+    @media (max-width: 780px) {
+      header {
+        align-items: flex-start;
 
-  .app {
-    grid-template-columns:
-      220px
-      1fr;
-  }
+        flex-direction: column;
+      }
 
-  .inspector {
-    grid-column: 1 / -1;
+      .app {
+        grid-template-columns: 1fr;
+      }
 
-    max-height: none;
-  }
+      .metadata {
+        grid-template-columns: 1fr;
+      }
 
-}
+      .design-area {
+        grid-template-columns: 1fr;
+      }
 
-@media(max-width: 780px) {
+      .tree-area {
+        border-right: 0;
 
-  .app {
-    grid-template-columns: 1fr;
-  }
+        border-bottom: 1px solid var(--border);
 
-  .metadata {
-    grid-template-columns: 1fr;
-  }
+        max-height: 220px;
+      }
 
-  .design-area {
-    grid-template-columns: 1fr;
-  }
+      .preview-area {
+        padding: 20px 5px;
+      }
 
-  .tree-area {
-    border-right: 0;
+      .flex-preview {
+        width: min(350px, 94vw);
+      }
 
-    border-bottom: 1px solid var(--border);
-
-    max-height: 220px;
-  }
-
-  .preview-area {
-    padding: 20px 5px;
-  }
-
-  .flex-preview {
-    width: min(350px, 95vw);
-  }
-
-}
-
-</style>
+      .editor-toolbar {
+        width: 100%;
+      }
+    }
+  </style>
 </head>
 
+
 <body>
+
+<!-- =========================================================
+     HEADER
+========================================================= -->
 
 <header>
 
   <div class="brand">
-
     <h1>LINE Flex Studio</h1>
 
     <small>
-      Visual Designer • JSON • Template Library
+      Visual Designer · JSON · Google Sheet Templates
     </small>
-
   </div>
+
 
   <div
     id="userInfo"
     class="user-info"
   >
-    Connecting LINE...
+    <span
+      id="apiDot"
+      class="api-dot"
+      title="Apps Script API"
+    ></span>
+
+    <span id="userLabel">
+      Connecting...
+    </span>
   </div>
 
 </header>
 
 
+<!-- =========================================================
+     APP
+========================================================= -->
+
 <div class="app">
 
 
-<!-- ====================================================
-     TEMPLATE LIBRARY
-==================================================== -->
+  <!-- =======================================================
+       LEFT : TEMPLATE LIBRARY
+  ======================================================== -->
 
-<section class="panel">
+  <section class="panel">
 
-  <div class="panel-header">
+    <div class="panel-header">
 
-    <span>Template Library</span>
+      <span>
+        Template Library
+      </span>
 
-    <button
-      class="btn-light btn-small"
-      onclick="newTemplate()"
-    >
-      + New
-    </button>
-
-  </div>
-
-
-  <div class="panel-body">
-
-    <input
-      id="searchInput"
-      class="template-search"
-      placeholder="Search..."
-      oninput="renderTemplateList()"
-    >
-
-    <div
-      id="templateList"
-      class="template-list"
-    ></div>
-
-  </div>
-
-</section>
-
-
-<!-- ====================================================
-     MAIN DESIGNER
-==================================================== -->
-
-<section class="panel">
-
-
-<div class="panel-header">
-
-  <span>Flex Designer</span>
-
-
-  <div class="editor-toolbar">
-
-    <button
-      class="btn-light"
-      onclick="newTemplate()"
-    >
-      New
-    </button>
-
-    <button
-      class="btn-primary"
-      onclick="saveCurrentTemplate()"
-    >
-      Save
-    </button>
-
-    <button
-      class="btn-light"
-      onclick="duplicateTemplate()"
-    >
-      Duplicate
-    </button>
-
-    <button
-      class="btn-danger"
-      onclick="deleteCurrentTemplate()"
-    >
-      Delete
-    </button>
-
-    <button
-      class="btn-dark"
-      onclick="shareFlex()"
-    >
-      Share LINE
-    </button>
-
-  </div>
-
-</div>
-
-
-<!-- Metadata -->
-
-<div class="metadata">
-
-  <div>
-
-    <label>Template Name</label>
-
-    <input
-      id="templateName"
-      placeholder="My Flex Template"
-    >
-
-  </div>
-
-
-  <div>
-
-    <label>LINE altText</label>
-
-    <input
-      id="altText"
-      value="Flex Message"
-      maxlength="400"
-    >
-
-  </div>
-
-</div>
-
-
-<!-- Component Toolbar -->
-
-<div class="component-toolbar">
-
-  <button
-    class="btn-light"
-    onclick="addComponent('text')"
-  >
-    + Text
-  </button>
-
-  <button
-    class="btn-light"
-    onclick="addComponent('image')"
-  >
-    + Image
-  </button>
-
-  <button
-    class="btn-light"
-    onclick="addComponent('button')"
-  >
-    + Button
-  </button>
-
-  <button
-    class="btn-light"
-    onclick="addComponent('box')"
-  >
-    + Box
-  </button>
-
-  <button
-    class="btn-light"
-    onclick="addComponent('separator')"
-  >
-    + Separator
-  </button>
-
-  <button
-    class="btn-light"
-    onclick="addComponent('spacer')"
-  >
-    + Spacer
-  </button>
-
-  <button
-    class="btn-blue"
-    onclick="addBubble()"
-  >
-    + Bubble
-  </button>
-
-  <span style="flex:1"></span>
-
-  <button
-    class="btn-light"
-    onclick="moveSelected(-1)"
-  >
-    ↑
-  </button>
-
-  <button
-    class="btn-light"
-    onclick="moveSelected(1)"
-  >
-    ↓
-  </button>
-
-  <button
-    class="btn-light"
-    onclick="duplicateSelected()"
-  >
-    Copy
-  </button>
-
-  <button
-    class="btn-danger"
-    onclick="removeSelected()"
-  >
-    Remove
-  </button>
-
-</div>
-
-
-<div class="design-area">
-
-
-<!-- TREE -->
-
-<div class="tree-area">
-
-  <div class="tree-title">
-    STRUCTURE
-  </div>
-
-  <div id="structureTree"></div>
-
-</div>
-
-
-<!-- PREVIEW -->
-
-<div class="preview-area">
-
-  <div id="previewRoot"></div>
-
-</div>
-
-
-</div>
-
-</section>
-
-
-<!-- ====================================================
-     PROPERTY INSPECTOR
-==================================================== -->
-
-<section class="panel inspector">
-
-  <div class="panel-header">
-
-    <span>Properties</span>
-
-  </div>
-
-
-  <div
-    id="propertyEditor"
-    class="inspector-section"
-  >
-  </div>
-
-
-  <!-- Selected JSON -->
-
-  <div class="inspector-section">
-
-    <h3>Selected Element JSON</h3>
-
-    <textarea
-      id="elementJsonEditor"
-    ></textarea>
-
-    <button
-      style="margin-top:8px"
-      class="btn-light"
-      onclick="applyElementJson()"
-    >
-      Apply Element JSON
-    </button>
-
-  </div>
-
-
-  <!-- Entire Flex JSON -->
-
-  <div class="inspector-section">
-
-    <h3>Full Flex JSON</h3>
-
-    <textarea
-      id="jsonEditor"
-      oninput="jsonDirty = true"
-    ></textarea>
-
-
-    <div
-      style="
-        display:flex;
-        gap:6px;
-        flex-wrap:wrap;
-        margin-top:8px;
-      "
-    >
 
       <button
-        class="btn-blue"
-        onclick="applyFullJson()"
+        class="btn-light btn-small"
+        onclick="newTemplate()"
       >
-        Apply JSON
-      </button>
-
-      <button
-        class="btn-light"
-        onclick="formatFullJson()"
-      >
-        Format
-      </button>
-
-      <button
-        class="btn-light"
-        onclick="copyFullJson()"
-      >
-        Copy JSON
+        + New
       </button>
 
     </div>
 
-  </div>
 
-</section>
+    <div class="panel-body">
 
+      <input
+        id="searchInput"
+        class="template-search"
+        placeholder="Search templates..."
+        oninput="renderTemplateList()"
+      >
+
+
+      <div
+        id="templateList"
+        class="template-list"
+      >
+        <div class="empty-state">
+          Loading...
+        </div>
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       CENTER : DESIGNER
+  ======================================================== -->
+
+  <section class="panel">
+
+
+    <div class="panel-header">
+
+      <span>
+        Flex Designer
+      </span>
+
+
+      <div class="editor-toolbar">
+
+        <button
+          class="btn-light"
+          onclick="newTemplate()"
+        >
+          New
+        </button>
+
+
+        <button
+          class="btn-primary"
+          onclick="saveCurrentTemplate()"
+        >
+          Save
+        </button>
+
+
+        <button
+          class="btn-light"
+          onclick="duplicateTemplate()"
+        >
+          Duplicate
+        </button>
+
+
+        <button
+          class="btn-danger"
+          onclick="deleteCurrentTemplate()"
+        >
+          Delete
+        </button>
+
+
+        <button
+          class="btn-dark"
+          onclick="shareFlex()"
+        >
+          Share LINE
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <!-- Metadata -->
+
+    <div class="metadata">
+
+      <div>
+
+        <label>
+          Template Name
+        </label>
+
+        <input
+          id="templateName"
+          placeholder="Biology Course Card"
+        >
+
+      </div>
+
+
+      <div>
+
+        <label>
+          LINE altText
+        </label>
+
+        <input
+          id="altText"
+          value="Flex Message"
+          maxlength="400"
+        >
+
+      </div>
+
+    </div>
+
+
+    <!-- Component Toolbar -->
+
+    <div class="component-toolbar">
+
+      <button
+        class="btn-light"
+        onclick="addComponent('text')"
+      >
+        + Text
+      </button>
+
+
+      <button
+        class="btn-light"
+        onclick="addComponent('image')"
+      >
+        + Image
+      </button>
+
+
+      <button
+        class="btn-light"
+        onclick="addComponent('button')"
+      >
+        + Button
+      </button>
+
+
+      <button
+        class="btn-light"
+        onclick="addComponent('box')"
+      >
+        + Box
+      </button>
+
+
+      <button
+        class="btn-light"
+        onclick="addComponent('separator')"
+      >
+        + Separator
+      </button>
+
+
+      <button
+        class="btn-light"
+        onclick="addComponent('spacer')"
+      >
+        + Spacer
+      </button>
+
+
+      <button
+        class="btn-blue"
+        onclick="addBubble()"
+      >
+        + Bubble
+      </button>
+
+
+      <span style="flex:1"></span>
+
+
+      <button
+        class="btn-light"
+        onclick="moveSelected(-1)"
+        title="Move Up"
+      >
+        ↑
+      </button>
+
+
+      <button
+        class="btn-light"
+        onclick="moveSelected(1)"
+        title="Move Down"
+      >
+        ↓
+      </button>
+
+
+      <button
+        class="btn-light"
+        onclick="duplicateSelected()"
+      >
+        Copy
+      </button>
+
+
+      <button
+        class="btn-danger"
+        onclick="removeSelected()"
+      >
+        Remove
+      </button>
+
+    </div>
+
+
+    <!-- Design Area -->
+
+    <div class="design-area">
+
+
+      <!-- Structure Tree -->
+
+      <div class="tree-area">
+
+        <div class="tree-title">
+          STRUCTURE
+        </div>
+
+        <div id="structureTree"></div>
+
+      </div>
+
+
+      <!-- Preview -->
+
+      <div class="preview-area">
+
+        <div id="previewRoot"></div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       RIGHT : PROPERTY INSPECTOR
+  ======================================================== -->
+
+  <section class="panel inspector">
+
+    <div class="panel-header">
+      <span>Properties</span>
+    </div>
+
+
+    <div
+      id="propertyEditor"
+      class="inspector-section"
+    ></div>
+
+
+    <!-- Selected Element JSON -->
+
+    <div class="inspector-section">
+
+      <h3>
+        Selected Element JSON
+      </h3>
+
+
+      <textarea
+        id="elementJsonEditor"
+      ></textarea>
+
+
+      <button
+        style="margin-top:8px"
+        class="btn-light"
+        onclick="applyElementJson()"
+      >
+        Apply Element JSON
+      </button>
+
+    </div>
+
+
+    <!-- Full JSON -->
+
+    <div class="inspector-section">
+
+      <h3>
+        Full Flex JSON
+      </h3>
+
+
+      <textarea
+        id="jsonEditor"
+        oninput="jsonDirty = true"
+      ></textarea>
+
+
+      <div
+        style="
+          display:flex;
+          gap:6px;
+          flex-wrap:wrap;
+          margin-top:8px;
+        "
+      >
+
+        <button
+          class="btn-blue"
+          onclick="applyFullJson()"
+        >
+          Apply JSON
+        </button>
+
+
+        <button
+          class="btn-light"
+          onclick="formatFullJson()"
+        >
+          Format
+        </button>
+
+
+        <button
+          class="btn-light"
+          onclick="copyFullJson()"
+        >
+          Copy
+        </button>
+
+      </div>
+
+    </div>
+
+  </section>
 
 </div>
 
@@ -986,12 +1079,20 @@ textarea:focus {
 <script>
 
 /* ============================================================
-   CONFIG
+   CONFIGURATION
 ============================================================ */
 
 const LIFF_ID =
   "2007125937-fXcIzxO8";
 
+
+const API_URL =
+  "https://script.google.com/macros/s/AKfycbxbTeH8bm8w8qTWo0-DO9fKGJa2BsAGmi2fVUUJ3omfOQ0bT5S-c6A7By8PnmcYlCpucg/exec";
+
+
+/* ============================================================
+   STATE
+============================================================ */
 
 let currentTemplateId = null;
 
@@ -999,13 +1100,13 @@ let templates = [];
 
 let jsonDirty = false;
 
+let apiOnline = false;
+
 
 let lineUser = {
-
-  id: "default-user",
-
-  name: "LINE User"
-
+  id: "anonymous",
+  name: "LINE User",
+  pictureUrl: ""
 };
 
 
@@ -1016,71 +1117,45 @@ let lineUser = {
 function createDefaultBubble() {
 
   return {
-
     type: "bubble",
 
     body: {
-
       type: "box",
-
       layout: "vertical",
-
       spacing: "md",
 
       contents: [
-
         {
-
           type: "text",
-
           text: "Hello, World!",
-
           weight: "bold",
-
           size: "xl",
-
-          wrap: true
-
+          wrap: true,
+          color: "#17211C"
         },
 
         {
-
           type: "text",
-
-          text: "Edit this Flex message visually.",
-
-          color: "#666666",
-
+          text: "Edit this Flex Message visually.",
+          color: "#718078",
           size: "sm",
-
           wrap: true
-
         },
 
         {
-
           type: "button",
-
           style: "primary",
-
           color: "#06C755",
+          margin: "md",
 
           action: {
-
             type: "uri",
-
             label: "Open website",
-
             uri: "https://line.me"
-
           }
-
         }
-
       ]
-
     }
-
   };
 
 }
@@ -1090,25 +1165,288 @@ let flexModel =
   createDefaultBubble();
 
 
-let selectedPath = ["body"];
+let selectedPath =
+  ["body"];
 
 
 /* ============================================================
-   INIT LIFF
+   APPS SCRIPT FETCH API
+============================================================ */
+
+async function apiRequest(body) {
+
+  let response;
+
+  try {
+
+    response =
+      await fetch(
+        API_URL,
+        {
+          method: "POST",
+
+          /*
+           * Important:
+           *
+           * text/plain avoids application/json CORS preflight
+           * with Google Apps Script Web App.
+           */
+          headers: {
+            "Content-Type":
+              "text/plain;charset=utf-8"
+          },
+
+          body:
+            JSON.stringify(body),
+
+          redirect:
+            "follow"
+        }
+      );
+
+  }
+
+  catch (error) {
+
+    setApiStatus(false);
+
+    throw new Error(
+      "Cannot connect to Apps Script API: " +
+      error.message
+    );
+
+  }
+
+
+  if (!response.ok) {
+
+    setApiStatus(false);
+
+    throw new Error(
+      `API HTTP Error ${response.status}`
+    );
+
+  }
+
+
+  const raw =
+    await response.text();
+
+
+  let result;
+
+
+  try {
+
+    result =
+      JSON.parse(raw);
+
+  }
+
+  catch (error) {
+
+    console.error(
+      "Raw Apps Script response:",
+      raw
+    );
+
+
+    setApiStatus(false);
+
+
+    throw new Error(
+      "Apps Script did not return valid JSON. " +
+      "Check your Code.gs deployment."
+    );
+
+  }
+
+
+  if (!result.success) {
+
+    setApiStatus(false);
+
+    throw new Error(
+      result.error ||
+      "Apps Script API error."
+    );
+
+  }
+
+
+  setApiStatus(true);
+
+
+  return result.data;
+
+}
+
+
+/* ============================================================
+   SERVER COMPATIBILITY WRAPPER
+============================================================ */
+
+async function server(
+  method,
+  ...args
+) {
+
+  switch (method) {
+
+    case "getTemplates":
+
+      return apiRequest({
+        action: "getTemplates",
+        ownerId: args[0]
+      });
+
+
+    case "getTemplate":
+
+      return apiRequest({
+        action: "getTemplate",
+        id: args[0],
+        ownerId: args[1]
+      });
+
+
+    case "saveTemplate":
+
+      return apiRequest({
+        action: "saveTemplate",
+        payload: args[0]
+      });
+
+
+    case "deleteTemplate":
+
+      return apiRequest({
+        action: "deleteTemplate",
+        id: args[0],
+        ownerId: args[1]
+      });
+
+
+    case "ping":
+
+      return apiRequest({
+        action: "ping"
+      });
+
+
+    default:
+
+      throw new Error(
+        "Unknown API method: " +
+        method
+      );
+
+  }
+
+}
+
+
+/* ============================================================
+   API STATUS
+============================================================ */
+
+function setApiStatus(online) {
+
+  apiOnline =
+    online;
+
+
+  const dot =
+    document.getElementById(
+      "apiDot"
+    );
+
+
+  dot.classList.remove(
+    "online",
+    "offline"
+  );
+
+
+  dot.classList.add(
+    online
+      ? "online"
+      : "offline"
+  );
+
+
+  dot.title =
+    online
+      ? "Apps Script API Connected"
+      : "Apps Script API Offline";
+
+}
+
+
+/* ============================================================
+   TEST API
+============================================================ */
+
+async function testApi() {
+
+  try {
+
+    await server(
+      "ping"
+    );
+
+
+    setApiStatus(
+      true
+    );
+
+
+    return true;
+
+  }
+
+  catch (error) {
+
+    console.error(
+      "API ping error:",
+      error
+    );
+
+
+    setApiStatus(
+      false
+    );
+
+
+    return false;
+
+  }
+
+}
+
+
+/* ============================================================
+   INITIALIZE
 ============================================================ */
 
 async function init() {
 
+  renderAll();
+
+
+  await testApi();
+
+
   try {
 
     await liff.init({
-
       liffId: LIFF_ID
-
     });
 
 
-    if (!liff.isLoggedIn()) {
+    if (
+      !liff.isLoggedIn()
+    ) {
 
       liff.login();
 
@@ -1117,66 +1455,25 @@ async function init() {
     }
 
 
-    try {
-
-      const profile =
-        await liff.getProfile();
-
-
-      lineUser = {
-
-        id: profile.userId,
-
-        name: profile.displayName
-
-      };
-
-
-      document.getElementById(
-        "userInfo"
-      ).textContent =
-        profile.displayName;
-
-    }
-
-    catch (error) {
-
-      const idToken =
-        liff.getDecodedIDToken();
-
-
-      if (idToken?.sub) {
-
-        lineUser.id =
-          idToken.sub;
-
-      }
-
-
-      document.getElementById(
-        "userInfo"
-      ).textContent =
-        "LINE User";
-
-    }
+    await loadLineProfile();
 
 
     await loadTemplateList();
-
-
-    renderAll();
 
   }
 
   catch (error) {
 
+    console.error(
+      "LIFF init:",
+      error
+    );
+
+
     showStatus(
-
-      "LIFF error: " +
+      "LIFF initialization error: " +
       error.message,
-
       "error"
-
     );
 
   }
@@ -1185,57 +1482,163 @@ async function init() {
 
 
 /* ============================================================
-   GAS PROMISE WRAPPERS
+   LINE PROFILE
 ============================================================ */
 
-function server(method, ...args) {
+async function loadLineProfile() {
 
-  return new Promise(
-    (resolve, reject) => {
+  try {
 
-      if (
-        typeof google === "undefined" ||
-        !google.script
-      ) {
+    const profile =
+      await liff.getProfile();
 
-        reject(
 
-          new Error(
-            "google.script.run is unavailable. Open this page from Apps Script Web App."
-          )
+    lineUser = {
+      id:
+        profile.userId,
 
-        );
+      name:
+        profile.displayName ||
+        "LINE User",
 
-        return;
+      pictureUrl:
+        profile.pictureUrl ||
+        ""
+    };
+
+
+    renderUser();
+
+  }
+
+  catch (error) {
+
+    console.warn(
+      "liff.getProfile failed:",
+      error
+    );
+
+
+    try {
+
+      const token =
+        liff.getDecodedIDToken();
+
+
+      if (token?.sub) {
+
+        lineUser.id =
+          token.sub;
 
       }
 
 
-      google.script.run
+      if (token?.name) {
 
-        .withSuccessHandler(resolve)
+        lineUser.name =
+          token.name;
 
-        .withFailureHandler(error => {
-
-          reject(
-
-            new Error(
-              error?.message ||
-              String(error)
-            )
-
-          );
-
-        })[method](...args);
+      }
 
     }
+
+    catch (_) {}
+
+
+    renderUser();
+
+  }
+
+}
+
+
+/* ============================================================
+   USER UI
+============================================================ */
+
+function renderUser() {
+
+  const root =
+    document.getElementById(
+      "userInfo"
+    );
+
+
+  root.innerHTML = "";
+
+
+  const dot =
+    document.createElement(
+      "span"
+    );
+
+
+  dot.id =
+    "apiDot";
+
+
+  dot.className =
+    "api-dot " +
+    (
+      apiOnline
+        ? "online"
+        : "offline"
+    );
+
+
+  root.appendChild(
+    dot
+  );
+
+
+  if (
+    lineUser.pictureUrl
+  ) {
+
+    const img =
+      document.createElement(
+        "img"
+      );
+
+
+    img.className =
+      "user-avatar";
+
+
+    img.src =
+      lineUser.pictureUrl;
+
+
+    img.alt =
+      lineUser.name;
+
+
+    root.appendChild(
+      img
+    );
+
+  }
+
+
+  const span =
+    document.createElement(
+      "span"
+    );
+
+
+  span.textContent =
+    lineUser.name;
+
+
+  root.appendChild(
+    span
   );
 
 }
 
 
 /* ============================================================
-   TEMPLATE LIST
+   LOAD TEMPLATE LIST
 ============================================================ */
 
 async function loadTemplateList() {
@@ -1244,12 +1647,20 @@ async function loadTemplateList() {
 
     templates =
       await server(
-
         "getTemplates",
-
         lineUser.id
-
       );
+
+
+    if (
+      !Array.isArray(
+        templates
+      )
+    ) {
+
+      templates = [];
+
+    }
 
 
     renderTemplateList();
@@ -1258,14 +1669,26 @@ async function loadTemplateList() {
 
   catch (error) {
 
-    console.warn(error);
+    templates = [];
+
 
     renderTemplateList();
+
+
+    showStatus(
+      "Cannot load templates: " +
+      error.message,
+      "error"
+    );
 
   }
 
 }
 
+
+/* ============================================================
+   RENDER TEMPLATE LIST
+============================================================ */
 
 function renderTemplateList() {
 
@@ -1291,25 +1714,25 @@ function renderTemplateList() {
   const filtered =
     templates.filter(
       template =>
-        template.name
+
+        String(
+          template.name ||
+          ""
+        )
           .toLowerCase()
           .includes(query)
     );
 
 
-  if (!filtered.length) {
+  if (
+    !filtered.length
+  ) {
 
     root.innerHTML =
       `
-        <div
-          style="
-            font-size:12px;
-            color:#718078;
-            padding:8px;
-          "
-        >
-          No templates
-        </div>
+      <div class="empty-state">
+        No templates
+      </div>
       `;
 
     return;
@@ -1317,62 +1740,84 @@ function renderTemplateList() {
   }
 
 
-  filtered.forEach(template => {
+  filtered.forEach(
+    template => {
 
-    const item =
-      document.createElement("div");
+      const item =
+        document.createElement(
+          "div"
+        );
 
 
-    item.className =
-      "template-item";
+      item.className =
+        "template-item";
 
 
-    if (
-      template.id ===
-      currentTemplateId
-    ) {
+      if (
+        template.id ===
+        currentTemplateId
+      ) {
 
-      item.classList.add(
-        "active"
+        item.classList.add(
+          "active"
+        );
+
+      }
+
+
+      const name =
+        document.createElement(
+          "div"
+        );
+
+
+      name.className =
+        "template-name";
+
+
+      name.textContent =
+        template.name ||
+        "Untitled";
+
+
+      const date =
+        document.createElement(
+          "div"
+        );
+
+
+      date.className =
+        "template-date";
+
+
+      date.textContent =
+        template.updatedAt ||
+        "";
+
+
+      item.appendChild(
+        name
+      );
+
+
+      item.appendChild(
+        date
+      );
+
+
+      item.onclick =
+        () =>
+          openTemplate(
+            template.id
+          );
+
+
+      root.appendChild(
+        item
       );
 
     }
-
-
-    const name =
-      document.createElement("div");
-
-    name.className =
-      "template-name";
-
-    name.textContent =
-      template.name;
-
-
-    const date =
-      document.createElement("div");
-
-    date.className =
-      "template-date";
-
-    date.textContent =
-      template.updatedAt || "";
-
-
-    item.appendChild(name);
-
-    item.appendChild(date);
-
-
-    item.onclick =
-      () => openTemplate(
-        template.id
-      );
-
-
-    root.appendChild(item);
-
-  });
+  );
 
 }
 
@@ -1385,22 +1830,37 @@ async function openTemplate(id) {
 
   try {
 
+    showStatus(
+      "Loading template..."
+    );
+
+
     const data =
       await server(
-
         "getTemplate",
-
         id,
-
         lineUser.id
-
       );
+
+
+    if (!data) {
+
+      throw new Error(
+        "Template data is empty."
+      );
+
+    }
 
 
     const parsed =
       JSON.parse(
         data.flexJson
       );
+
+
+    validateFlex(
+      parsed
+    );
 
 
     flexModel =
@@ -1414,13 +1874,15 @@ async function openTemplate(id) {
     document.getElementById(
       "templateName"
     ).value =
-      data.templateName;
+      data.templateName ||
+      "";
 
 
     document.getElementById(
       "altText"
     ).value =
-      data.altText;
+      data.altText ||
+      "Flex Message";
 
 
     selectedPath =
@@ -1438,11 +1900,8 @@ async function openTemplate(id) {
 
 
     showStatus(
-
-      "Template loaded",
-
+      "Template loaded.",
       "success"
-
     );
 
   }
@@ -1450,6 +1909,7 @@ async function openTemplate(id) {
   catch (error) {
 
     showStatus(
+      "Cannot load template: " +
       error.message,
       "error"
     );
@@ -1460,7 +1920,7 @@ async function openTemplate(id) {
 
 
 /* ============================================================
-   NEW
+   NEW TEMPLATE
 ============================================================ */
 
 function newTemplate() {
@@ -1494,11 +1954,12 @@ function newTemplate() {
 
   renderAll();
 
+
   renderTemplateList();
 
 
   showStatus(
-    "New template"
+    "New template."
   );
 
 }
@@ -1512,8 +1973,12 @@ async function saveCurrentTemplate() {
 
   try {
 
-    if (!commitJsonIfNeeded()) {
+    if (
+      !commitJsonIfNeeded()
+    ) {
+
       return;
+
     }
 
 
@@ -1522,7 +1987,7 @@ async function saveCurrentTemplate() {
     );
 
 
-    const name =
+    const templateName =
       document
         .getElementById(
           "templateName"
@@ -1531,10 +1996,10 @@ async function saveCurrentTemplate() {
         .trim();
 
 
-    if (!name) {
+    if (!templateName) {
 
       throw new Error(
-        "Enter Template Name first."
+        "Please enter Template Name."
       );
 
     }
@@ -1546,17 +2011,20 @@ async function saveCurrentTemplate() {
           "altText"
         )
         .value
-        .trim() ||
+        .trim()
+      ||
       "Flex Message";
+
+
+    showStatus(
+      "Saving..."
+    );
 
 
     const result =
       await server(
-
         "saveTemplate",
-
         {
-
           id:
             currentTemplateId,
 
@@ -1567,7 +2035,7 @@ async function saveCurrentTemplate() {
             lineUser.name,
 
           templateName:
-            name,
+            templateName,
 
           altText:
             altText,
@@ -1578,9 +2046,7 @@ async function saveCurrentTemplate() {
               null,
               2
             )
-
         }
-
       );
 
 
@@ -1592,13 +2058,10 @@ async function saveCurrentTemplate() {
 
 
     showStatus(
-
       result.mode === "created"
-        ? "Template created"
-        : "Template updated",
-
+        ? "Template created."
+        : "Template updated.",
       "success"
-
     );
 
   }
@@ -1606,6 +2069,7 @@ async function saveCurrentTemplate() {
   catch (error) {
 
     showStatus(
+      "Save failed: " +
       error.message,
       "error"
     );
@@ -1631,34 +2095,36 @@ function duplicateTemplate() {
     );
 
 
+  const original =
+    input.value.trim() ||
+    "Flex Template";
+
+
   input.value =
-    (
-      input.value ||
-      "Flex Template"
-    ) + " Copy";
+    original +
+    " Copy";
 
 
   renderTemplateList();
 
 
   showStatus(
-
-    "Duplicated. Click Save to create a new template.",
-
+    "Duplicated. Click Save to create it.",
     "success"
-
   );
 
 }
 
 
 /* ============================================================
-   DELETE
+   DELETE TEMPLATE
 ============================================================ */
 
 async function deleteCurrentTemplate() {
 
-  if (!currentTemplateId) {
+  if (
+    !currentTemplateId
+  ) {
 
     showStatus(
       "This template has not been saved yet.",
@@ -1683,25 +2149,49 @@ async function deleteCurrentTemplate() {
 
   try {
 
-    await server(
-
-      "deleteTemplate",
-
-      currentTemplateId,
-
-      lineUser.id
-
+    showStatus(
+      "Deleting..."
     );
 
 
-    newTemplate();
+    await server(
+      "deleteTemplate",
+      currentTemplateId,
+      lineUser.id
+    );
+
+
+    currentTemplateId =
+      null;
+
+
+    flexModel =
+      createDefaultBubble();
+
+
+    selectedPath =
+      ["body"];
+
+
+    document.getElementById(
+      "templateName"
+    ).value = "";
+
+
+    document.getElementById(
+      "altText"
+    ).value =
+      "Flex Message";
+
+
+    renderAll();
 
 
     await loadTemplateList();
 
 
     showStatus(
-      "Template deleted",
+      "Template deleted.",
       "success"
     );
 
@@ -1710,6 +2200,7 @@ async function deleteCurrentTemplate() {
   catch (error) {
 
     showStatus(
+      "Delete failed: " +
       error.message,
       "error"
     );
@@ -1720,15 +2211,19 @@ async function deleteCurrentTemplate() {
 
 
 /* ============================================================
-   SHARE LINE
+   SHARE FLEX
 ============================================================ */
 
 async function shareFlex() {
 
   try {
 
-    if (!commitJsonIfNeeded()) {
+    if (
+      !commitJsonIfNeeded()
+    ) {
+
       return;
+
     }
 
 
@@ -1738,13 +2233,25 @@ async function shareFlex() {
 
 
     if (
+      !liff.isLoggedIn()
+    ) {
+
+      liff.login();
+
+      return;
+
+    }
+
+
+    if (
       !liff.isApiAvailable(
         "shareTargetPicker"
       )
     ) {
 
       throw new Error(
-        "shareTargetPicker is unavailable."
+        "shareTargetPicker is unavailable. " +
+        "Check your LIFF settings."
       );
 
     }
@@ -1756,33 +2263,31 @@ async function shareFlex() {
           "altText"
         )
         .value
-        .trim() ||
+        .trim()
+      ||
       "Flex Message";
 
 
     const result =
       await liff.shareTargetPicker([
-
         {
-
           type: "flex",
 
-          altText,
+          altText:
+            altText,
 
           contents:
             deepClone(
               flexModel
             )
-
         }
-
       ]);
 
 
     if (result) {
 
       showStatus(
-        "Flex message shared.",
+        "Flex Message shared.",
         "success"
       );
 
@@ -1793,12 +2298,9 @@ async function shareFlex() {
   catch (error) {
 
     showStatus(
-
       "Share failed: " +
       error.message,
-
       "error"
-
     );
 
   }
@@ -1807,7 +2309,7 @@ async function shareFlex() {
 
 
 /* ============================================================
-   PATH FUNCTIONS
+   PATH HELPERS
 ============================================================ */
 
 function getByPath(path) {
@@ -1816,7 +2318,9 @@ function getByPath(path) {
     flexModel;
 
 
-  for (const key of path) {
+  for (
+    const key of path
+  ) {
 
     if (
       value === undefined ||
@@ -1826,6 +2330,7 @@ function getByPath(path) {
       return undefined;
 
     }
+
 
     value =
       value[key];
@@ -1840,7 +2345,9 @@ function getByPath(path) {
 
 function getParentInfo(path) {
 
-  if (!path.length) {
+  if (
+    !path.length
+  ) {
 
     return null;
 
@@ -1855,7 +2362,6 @@ function getParentInfo(path) {
 
 
   return {
-
     parentPath,
 
     parent:
@@ -1867,7 +2373,6 @@ function getParentInfo(path) {
       path[
         path.length - 1
       ]
-
   };
 
 }
@@ -1886,14 +2391,16 @@ function pathEquals(a, b) {
 function deepClone(value) {
 
   return JSON.parse(
-    JSON.stringify(value)
+    JSON.stringify(
+      value
+    )
   );
 
 }
 
 
 /* ============================================================
-   TREE
+   STRUCTURE TREE
 ============================================================ */
 
 function renderTree() {
@@ -1908,17 +2415,11 @@ function renderTree() {
 
 
   appendTreeNode(
-
     root,
-
     flexModel,
-
     [],
-
     0,
-
     "Flex"
-
   );
 
 }
@@ -1943,7 +2444,9 @@ function appendTreeNode(
 
 
   const row =
-    document.createElement("div");
+    document.createElement(
+      "div"
+    );
 
 
   row.className =
@@ -1968,7 +2471,8 @@ function appendTreeNode(
     (
       7 +
       depth * 12
-    ) + "px";
+    ) +
+    "px";
 
 
   row.textContent =
@@ -1985,12 +2489,16 @@ function appendTreeNode(
 
       event.stopPropagation();
 
+
       selectedPath =
         [...path];
 
-      renderAll(
-        false
-      );
+
+      renderTree();
+
+      renderPreview();
+
+      renderProperties();
 
     };
 
@@ -2011,35 +2519,33 @@ function appendTreeNode(
       "hero",
       "body",
       "footer"
-    ].forEach(section => {
+    ].forEach(
+      section => {
 
-      if (node[section]) {
+        if (
+          node[section]
+        ) {
 
-        appendTreeNode(
-
-          parent,
-
-          node[section],
-
-          [
-            ...path,
+          appendTreeNode(
+            parent,
+            node[section],
+            [
+              ...path,
+              section
+            ],
+            depth + 1,
             section
-          ],
+          );
 
-          depth + 1,
-
-          section
-
-        );
+        }
 
       }
-
-    });
+    );
 
   }
 
 
-  /* Carousel bubbles */
+  /* Carousel */
 
   if (
     node.type === "carousel" &&
@@ -2049,24 +2555,21 @@ function appendTreeNode(
   ) {
 
     node.contents.forEach(
-      (bubble, index) => {
+      (
+        bubble,
+        index
+      ) => {
 
         appendTreeNode(
-
           parent,
-
           bubble,
-
           [
             ...path,
             "contents",
             index
           ],
-
           depth + 1,
-
           `Bubble ${index + 1}`
-
         );
 
       }
@@ -2075,7 +2578,7 @@ function appendTreeNode(
   }
 
 
-  /* Box children */
+  /* Box Children */
 
   if (
     node.type === "box" &&
@@ -2085,30 +2588,83 @@ function appendTreeNode(
   ) {
 
     node.contents.forEach(
-      (child, index) => {
+      (
+        child,
+        index
+      ) => {
 
         appendTreeNode(
-
           parent,
-
           child,
-
           [
             ...path,
             "contents",
             index
           ],
-
           depth + 1,
-
-          `${index + 1}`
-
+          getNodeLabel(
+            child,
+            index
+          )
         );
 
       }
     );
 
   }
+
+}
+
+
+function getNodeLabel(
+  node,
+  index
+) {
+
+  if (
+    node.type === "text"
+  ) {
+
+    const text =
+      String(
+        node.text ||
+        ""
+      );
+
+
+    return (
+      `${index + 1}. Text: ` +
+      text.substring(
+        0,
+        18
+      )
+    );
+
+  }
+
+
+  if (
+    node.type === "button"
+  ) {
+
+    return (
+      `${index + 1}. Button: ` +
+      (
+        node.action?.label ||
+        ""
+      )
+    );
+
+  }
+
+
+  return (
+    `${index + 1}. ` +
+    (
+      node.type ||
+      "object"
+    )
+  );
 
 }
 
@@ -2129,8 +2685,7 @@ function renderPreview() {
 
 
   if (
-    flexModel.type ===
-    "carousel"
+    flexModel.type === "carousel"
   ) {
 
     const carousel =
@@ -2142,8 +2697,9 @@ function renderPreview() {
     carousel.style.display =
       "flex";
 
+
     carousel.style.gap =
-      "15px";
+      "16px";
 
 
     carousel.style.alignItems =
@@ -2154,21 +2710,19 @@ function renderPreview() {
       flexModel.contents ||
       []
     ).forEach(
-      (bubble, index) => {
+      (
+        bubble,
+        index
+      ) => {
 
         carousel.appendChild(
-
           renderPreviewBubble(
-
             bubble,
-
             [
               "contents",
               index
             ]
-
           )
-
         );
 
       }
@@ -2184,18 +2738,20 @@ function renderPreview() {
   else {
 
     root.appendChild(
-
       renderPreviewBubble(
         flexModel,
         []
       )
-
     );
 
   }
 
 }
 
+
+/* ============================================================
+   PREVIEW BUBBLE
+============================================================ */
 
 function renderPreviewBubble(
   bubble,
@@ -2218,29 +2774,26 @@ function renderPreviewBubble(
   );
 
 
+  /* HERO */
+
   if (
     bubble.hero
   ) {
 
-    const hero =
+    card.appendChild(
       renderPreviewNode(
-
         bubble.hero,
-
         [
           ...path,
           "hero"
         ]
-
-      );
-
-
-    card.appendChild(
-      hero
+      )
     );
 
   }
 
+
+  /* Header / Body / Footer */
 
   [
     "header",
@@ -2270,23 +2823,16 @@ function renderPreviewBubble(
         "preview-section";
 
 
-      const node =
+      section.appendChild(
         renderPreviewNode(
-
           bubble[
             sectionName
           ],
-
           [
             ...path,
             sectionName
           ]
-
-        );
-
-
-      section.appendChild(
-        node
+        )
       );
 
 
@@ -2302,6 +2848,10 @@ function renderPreviewBubble(
 
 }
 
+
+/* ============================================================
+   PREVIEW NODE
+============================================================ */
 
 function renderPreviewNode(
   node,
@@ -2320,9 +2870,7 @@ function renderPreviewNode(
   let el;
 
 
-  /* ========================
-     TEXT
-  ======================== */
+  /* TEXT */
 
   if (
     node.type === "text"
@@ -2335,7 +2883,8 @@ function renderPreviewNode(
 
 
     el.textContent =
-      node.text || "";
+      node.text ||
+      "";
 
 
     el.style.whiteSpace =
@@ -2347,11 +2896,7 @@ function renderPreviewNode(
     el.style.fontWeight =
       node.weight === "bold"
         ? "700"
-        :
-      node.weight === "regular"
-        ? "400"
-        :
-      "400";
+        : "400";
 
 
     el.style.fontSize =
@@ -2367,7 +2912,7 @@ function renderPreviewNode(
 
     el.style.textAlign =
       node.align ||
-      "left";
+      "start";
 
 
     el.style.marginTop =
@@ -2375,12 +2920,32 @@ function renderPreviewNode(
         node.margin
       );
 
+
+    if (
+      node.decoration ===
+      "underline"
+    ) {
+
+      el.style.textDecoration =
+        "underline";
+
+    }
+
+
+    if (
+      node.decoration ===
+      "line-through"
+    ) {
+
+      el.style.textDecoration =
+        "line-through";
+
+    }
+
   }
 
 
-  /* ========================
-     IMAGE
-  ======================== */
+  /* IMAGE */
 
   else if (
     node.type === "image"
@@ -2393,7 +2958,12 @@ function renderPreviewNode(
 
 
     el.src =
-      node.url || "";
+      node.url ||
+      "";
+
+
+    el.alt =
+      "Flex Image";
 
 
     el.style.display =
@@ -2445,12 +3015,23 @@ function renderPreviewNode(
 
     }
 
+
+    el.onerror =
+      () => {
+
+        el.style.minHeight =
+          "100px";
+
+
+        el.style.background =
+          "#eeeeee";
+
+      };
+
   }
 
 
-  /* ========================
-     BUTTON
-  ======================== */
+  /* BUTTON */
 
   else if (
     node.type === "button"
@@ -2478,30 +3059,30 @@ function renderPreviewNode(
 
 
     if (
-      node.style ===
-      "primary"
+      node.style === "primary"
     ) {
 
       el.style.background =
         node.color ||
         "#06C755";
 
+
       el.style.color =
-        "white";
+        "#ffffff";
 
     }
 
     else if (
-      node.style ===
-      "secondary"
+      node.style === "secondary"
     ) {
 
       el.style.background =
         node.color ||
         "#eeeeee";
 
+
       el.style.color =
-        "#222";
+        "#222222";
 
     }
 
@@ -2509,6 +3090,7 @@ function renderPreviewNode(
 
       el.style.background =
         "transparent";
+
 
       el.style.color =
         node.color ||
@@ -2519,9 +3101,7 @@ function renderPreviewNode(
   }
 
 
-  /* ========================
-     BOX
-  ======================== */
+  /* BOX */
 
   else if (
     node.type === "box"
@@ -2537,10 +3117,35 @@ function renderPreviewNode(
       "preview-box";
 
 
-    el.style.flexDirection =
-      node.layout === "horizontal"
-        ? "row"
-        : "column";
+    if (
+      node.layout ===
+      "horizontal" ||
+      node.layout ===
+      "baseline"
+    ) {
+
+      el.style.flexDirection =
+        "row";
+
+    }
+
+    else {
+
+      el.style.flexDirection =
+        "column";
+
+    }
+
+
+    if (
+      node.layout ===
+      "baseline"
+    ) {
+
+      el.style.alignItems =
+        "baseline";
+
+    }
 
 
     el.style.gap =
@@ -2593,22 +3198,34 @@ function renderPreviewNode(
       node.contents ||
       []
     ).forEach(
-      (child, index) => {
+      (
+        child,
+        index
+      ) => {
 
-        el.appendChild(
-
+        const childEl =
           renderPreviewNode(
-
             child,
-
             [
               ...path,
               "contents",
               index
             ]
+          );
 
-          )
 
+        if (
+          child.flex
+        ) {
+
+          childEl.style.flex =
+            child.flex;
+
+        }
+
+
+        el.appendChild(
+          childEl
         );
 
       }
@@ -2617,9 +3234,7 @@ function renderPreviewNode(
   }
 
 
-  /* ========================
-     SEPARATOR
-  ======================== */
+  /* SEPARATOR */
 
   else if (
     node.type ===
@@ -2655,12 +3270,11 @@ function renderPreviewNode(
   }
 
 
-  /* ========================
-     SPACER
-  ======================== */
+  /* SPACER */
 
   else if (
-    node.type === "spacer"
+    node.type ===
+    "spacer"
   ) {
 
     el =
@@ -2689,6 +3303,14 @@ function renderPreviewNode(
     el.textContent =
       `[${node.type || "unknown"}]`;
 
+
+    el.style.padding =
+      "8px";
+
+
+    el.style.background =
+      "#fff3cd";
+
   }
 
 
@@ -2707,6 +3329,10 @@ function renderPreviewNode(
 
 }
 
+
+/* ============================================================
+   PREVIEW SELECT
+============================================================ */
 
 function makePreviewSelectable(
   el,
@@ -2739,9 +3365,11 @@ function makePreviewSelectable(
         [...path];
 
 
-      renderAll(
-        false
-      );
+      renderTree();
+
+      renderPreview();
+
+      renderProperties();
 
     };
 
@@ -2799,20 +3427,16 @@ function renderProperties() {
   );
 
 
-  /* Bubble */
+  /* BUBBLE */
 
   if (
     node.type === "bubble"
   ) {
 
     addSelectField(
-
       root,
-
       "Bubble Size",
-
       node.size || "",
-
       [
         "",
         "nano",
@@ -2821,49 +3445,38 @@ function renderProperties() {
         "mega",
         "giga"
       ],
-
       value =>
         updateProperty(
           "size",
           value
         )
-
     );
 
   }
 
 
-  /* Text */
+  /* TEXT */
 
   if (
     node.type === "text"
   ) {
 
     addTextareaField(
-
       root,
-
       "Text",
-
       node.text || "",
-
       value =>
-        updateProperty(
+        updatePropertyLive(
           "text",
           value
         )
-
     );
 
 
     addSelectField(
-
       root,
-
       "Size",
-
       node.size || "md",
-
       [
         "xxs",
         "xs",
@@ -2876,88 +3489,67 @@ function renderProperties() {
         "4xl",
         "5xl"
       ],
-
       value =>
         updateProperty(
           "size",
           value
         )
-
     );
 
 
     addSelectField(
-
       root,
-
       "Weight",
-
-      node.weight || "regular",
-
+      node.weight ||
+      "regular",
       [
         "regular",
         "bold"
       ],
-
       value =>
         updateProperty(
           "weight",
           value
         )
-
     );
 
 
     addColorField(
-
       root,
-
       "Text Color",
-
       node.color ||
       "#222222",
-
       value =>
-        updateProperty(
+        updatePropertyLive(
           "color",
           value
         )
-
     );
 
 
     addSelectField(
-
       root,
-
       "Align",
-
       node.align ||
       "start",
-
       [
         "start",
         "center",
         "end"
       ],
-
       value =>
         updateProperty(
           "align",
           value
         )
-
     );
 
 
     addSelectField(
-
       root,
-
       "Margin",
-
-      node.margin || "",
-
+      node.margin ||
+      "",
       [
         "",
         "none",
@@ -2968,67 +3560,51 @@ function renderProperties() {
         "xl",
         "xxl"
       ],
-
       value =>
         updateProperty(
           "margin",
           value
         )
-
     );
 
 
     addCheckboxField(
-
       root,
-
       "Wrap Text",
-
       node.wrap !== false,
-
       value =>
         updateProperty(
           "wrap",
           value
         )
-
     );
 
   }
 
 
-  /* Image */
+  /* IMAGE */
 
   if (
     node.type === "image"
   ) {
 
     addTextField(
-
       root,
-
       "Image URL",
-
       node.url || "",
-
       value =>
-        updateProperty(
+        updatePropertyLive(
           "url",
           value
         )
-
     );
 
 
     addSelectField(
-
       root,
-
       "Size",
-
       node.size ||
       "full",
-
       [
         "xxs",
         "xs",
@@ -3042,65 +3618,48 @@ function renderProperties() {
         "5xl",
         "full"
       ],
-
       value =>
         updateProperty(
           "size",
           value
         )
-
     );
 
 
     addTextField(
-
       root,
-
       "Aspect Ratio",
-
       node.aspectRatio ||
       "20:13",
-
       value =>
-        updateProperty(
+        updatePropertyLive(
           "aspectRatio",
           value
         )
-
     );
 
 
     addSelectField(
-
       root,
-
       "Aspect Mode",
-
       node.aspectMode ||
       "cover",
-
       [
         "cover",
         "fit"
       ],
-
       value =>
         updateProperty(
           "aspectMode",
           value
         )
-
     );
 
 
     addSelectField(
-
       root,
-
       "Margin",
-
       node.margin || "",
-
       [
         "",
         "none",
@@ -3111,204 +3670,202 @@ function renderProperties() {
         "xl",
         "xxl"
       ],
-
       value =>
         updateProperty(
           "margin",
           value
         )
-
     );
 
   }
 
 
-  /* Button */
+  /* BUTTON */
 
   if (
     node.type === "button"
   ) {
 
-    if (!node.action) {
+    if (
+      !node.action
+    ) {
 
       node.action = {
-
         type: "uri",
-
         label: "Button",
-
         uri: "https://line.me"
-
       };
 
     }
 
 
     addTextField(
-
       root,
-
       "Button Label",
-
-      node.action.label || "",
-
+      node.action.label ||
+      "",
       value => {
 
         node.action.label =
           value;
 
-        afterModelChange();
+
+        refreshModelViews(
+          false
+        );
 
       }
-
     );
 
 
     addSelectField(
-
       root,
-
-      "Button Style",
-
+      "Style",
       node.style ||
       "primary",
-
       [
         "primary",
         "secondary",
         "link"
       ],
-
       value =>
         updateProperty(
           "style",
           value
         )
-
     );
 
 
     addColorField(
-
       root,
-
       "Button Color",
-
       node.color ||
       "#06C755",
-
       value =>
-        updateProperty(
+        updatePropertyLive(
           "color",
           value
         )
-
     );
 
 
     addSelectField(
-
       root,
-
       "Action Type",
-
       node.action.type ||
       "uri",
-
       [
         "uri",
         "message",
         "postback"
       ],
-
-      value => {
-
+      value =>
         changeButtonActionType(
           node,
           value
-        );
-
-      }
-
+        )
     );
 
 
     if (
-      node.action.type ===
-      "uri"
+      node.action.type === "uri"
     ) {
 
       addTextField(
-
         root,
-
         "URL",
-
-        node.action.uri || "",
-
+        node.action.uri ||
+        "",
         value => {
 
           node.action.uri =
             value;
 
-          afterModelChange();
+
+          refreshModelViews(
+            false
+          );
 
         }
-
       );
 
     }
 
 
     if (
-      node.action.type ===
-      "message"
+      node.action.type === "message"
     ) {
 
       addTextField(
-
         root,
-
         "Message",
-
-        node.action.text || "",
-
+        node.action.text ||
+        "",
         value => {
 
           node.action.text =
             value;
 
-          afterModelChange();
+
+          refreshModelViews(
+            false
+          );
 
         }
-
       );
 
     }
 
 
     if (
-      node.action.type ===
-      "postback"
+      node.action.type === "postback"
     ) {
 
       addTextField(
-
         root,
-
         "Postback Data",
-
-        node.action.data || "",
-
+        node.action.data ||
+        "",
         value => {
 
           node.action.data =
             value;
 
-          afterModelChange();
+
+          refreshModelViews(
+            false
+          );
 
         }
+      );
 
+
+      addTextField(
+        root,
+        "Display Text",
+        node.action.displayText ||
+        "",
+        value => {
+
+          if (value) {
+
+            node.action.displayText =
+              value;
+
+          }
+
+          else {
+
+            delete node.action.displayText;
+
+          }
+
+
+          refreshModelViews(
+            false
+          );
+
+        }
       );
 
     }
@@ -3316,44 +3873,34 @@ function renderProperties() {
   }
 
 
-  /* Box */
+  /* BOX */
 
   if (
     node.type === "box"
   ) {
 
     addSelectField(
-
       root,
-
       "Layout",
-
       node.layout ||
       "vertical",
-
       [
         "vertical",
         "horizontal",
         "baseline"
       ],
-
       value =>
         updateProperty(
           "layout",
           value
         )
-
     );
 
 
     addSelectField(
-
       root,
-
       "Spacing",
-
       node.spacing || "",
-
       [
         "",
         "none",
@@ -3364,24 +3911,18 @@ function renderProperties() {
         "xl",
         "xxl"
       ],
-
       value =>
         updateProperty(
           "spacing",
           value
         )
-
     );
 
 
     addSelectField(
-
       root,
-
       "Margin",
-
       node.margin || "",
-
       [
         "",
         "none",
@@ -3392,42 +3933,32 @@ function renderProperties() {
         "xl",
         "xxl"
       ],
-
       value =>
         updateProperty(
           "margin",
           value
         )
-
     );
 
 
     addColorField(
-
       root,
-
       "Background",
-
       node.backgroundColor ||
       "#ffffff",
-
       value =>
-        updateProperty(
+        updatePropertyLive(
           "backgroundColor",
           value
         )
-
     );
 
 
     addSelectField(
-
       root,
-
       "Corner Radius",
-
-      node.cornerRadius || "",
-
+      node.cornerRadius ||
+      "",
       [
         "",
         "none",
@@ -3438,24 +3969,19 @@ function renderProperties() {
         "xl",
         "xxl"
       ],
-
       value =>
         updateProperty(
           "cornerRadius",
           value
         )
-
     );
 
 
     addSelectField(
-
       root,
-
       "Padding",
-
-      node.paddingAll || "",
-
+      node.paddingAll ||
+      "",
       [
         "",
         "none",
@@ -3466,61 +3992,48 @@ function renderProperties() {
         "xl",
         "xxl"
       ],
-
       value =>
         updateProperty(
           "paddingAll",
           value
         )
-
     );
 
   }
 
 
-  /* Separator */
+  /* SEPARATOR */
 
   if (
-    node.type ===
-    "separator"
+    node.type === "separator"
   ) {
 
     addColorField(
-
       root,
-
       "Color",
-
       node.color ||
       "#dddddd",
-
       value =>
-        updateProperty(
+        updatePropertyLive(
           "color",
           value
         )
-
     );
 
   }
 
 
-  /* Spacer */
+  /* SPACER */
 
   if (
-    node.type ===
-    "spacer"
+    node.type === "spacer"
   ) {
 
     addSelectField(
-
       root,
-
       "Size",
-
       node.size ||
       "md",
-
       [
         "xs",
         "sm",
@@ -3529,33 +4042,58 @@ function renderProperties() {
         "xl",
         "xxl"
       ],
-
       value =>
         updateProperty(
           "size",
           value
         )
-
     );
 
   }
 
 
-  document.getElementById(
-    "elementJsonEditor"
-  ).value =
-    JSON.stringify(
-      node,
-      null,
-      2
-    );
+  syncSelectedJson();
 
 }
 
 
 /* ============================================================
-   PROPERTY UI HELPERS
+   FIELD UI HELPERS
 ============================================================ */
+
+function createField(
+  labelText
+) {
+
+  const wrapper =
+    document.createElement(
+      "div"
+    );
+
+
+  wrapper.className =
+    "field";
+
+
+  const label =
+    document.createElement(
+      "label"
+    );
+
+
+  label.textContent =
+    labelText;
+
+
+  wrapper.appendChild(
+    label
+  );
+
+
+  return wrapper;
+
+}
+
 
 function addTextField(
   root,
@@ -3581,9 +4119,10 @@ function addTextField(
 
 
   input.oninput =
-    () => onChange(
-      input.value
-    );
+    () =>
+      onChange(
+        input.value
+      );
 
 
   wrapper.appendChild(
@@ -3619,14 +4158,16 @@ function addTextareaField(
 
   input.rows = 4;
 
+
   input.value =
     value ?? "";
 
 
   input.oninput =
-    () => onChange(
-      input.value
-    );
+    () =>
+      onChange(
+        input.value
+      );
 
 
   wrapper.appendChild(
@@ -3699,9 +4240,10 @@ function addSelectField(
 
 
   select.onchange =
-    () => onChange(
-      select.value
-    );
+    () =>
+      onChange(
+        select.value
+      );
 
 
   wrapper.appendChild(
@@ -3738,8 +4280,10 @@ function addColorField(
   group.style.display =
     "grid";
 
+
   group.style.gridTemplateColumns =
     "50px 1fr";
+
 
   group.style.gap =
     "7px";
@@ -3777,6 +4321,7 @@ function addColorField(
       text.value =
         color.value;
 
+
       onChange(
         color.value
       );
@@ -3788,9 +4333,10 @@ function addColorField(
     () => {
 
       if (
-        /^#[0-9A-Fa-f]{6}$/.test(
-          text.value
-        )
+        /^#[0-9A-Fa-f]{6}$/
+          .test(
+            text.value
+          )
       ) {
 
         color.value =
@@ -3809,6 +4355,7 @@ function addColorField(
   group.appendChild(
     color
   );
+
 
   group.appendChild(
     text
@@ -3844,6 +4391,24 @@ function addCheckboxField(
     "field";
 
 
+  const label =
+    document.createElement(
+      "label"
+    );
+
+
+  label.style.display =
+    "flex";
+
+
+  label.style.alignItems =
+    "center";
+
+
+  label.style.gap =
+    "8px";
+
+
   const input =
     document.createElement(
       "input"
@@ -3862,20 +4427,11 @@ function addCheckboxField(
     "auto";
 
 
-  const label =
-    document.createElement(
-      "label"
-    );
-
-
-  label.style.display =
-    "flex";
-
-  label.style.alignItems =
-    "center";
-
-  label.style.gap =
-    "8px";
+  input.onchange =
+    () =>
+      onChange(
+        input.checked
+      );
 
 
   label.appendChild(
@@ -3890,12 +4446,6 @@ function addCheckboxField(
   );
 
 
-  input.onchange =
-    () => onChange(
-      input.checked
-    );
-
-
   wrapper.appendChild(
     label
   );
@@ -3904,40 +4454,6 @@ function addCheckboxField(
   root.appendChild(
     wrapper
   );
-
-}
-
-
-function createField(
-  labelText
-) {
-
-  const wrapper =
-    document.createElement(
-      "div"
-    );
-
-
-  wrapper.className =
-    "field";
-
-
-  const label =
-    document.createElement(
-      "label"
-    );
-
-
-  label.textContent =
-    labelText;
-
-
-  wrapper.appendChild(
-    label
-  );
-
-
-  return wrapper;
 
 }
 
@@ -3951,8 +4467,12 @@ function updateProperty(
   value
 ) {
 
-  if (!commitJsonIfNeeded()) {
+  if (
+    !commitJsonIfNeeded()
+  ) {
+
     return;
+
   }
 
 
@@ -3963,7 +4483,9 @@ function updateProperty(
 
 
   if (!node) {
+
     return;
+
   }
 
 
@@ -3983,10 +4505,62 @@ function updateProperty(
   }
 
 
-  afterModelChange();
+  refreshModelViews(
+    true
+  );
 
 }
 
+
+/*
+ * Used while typing.
+ * Does not rebuild property panel,
+ * so cursor/input focus is preserved.
+ */
+function updatePropertyLive(
+  key,
+  value
+) {
+
+  const node =
+    getByPath(
+      selectedPath
+    );
+
+
+  if (!node) {
+
+    return;
+
+  }
+
+
+  if (
+    value === ""
+  ) {
+
+    delete node[key];
+
+  }
+
+  else {
+
+    node[key] =
+      value;
+
+  }
+
+
+  refreshModelViews(
+    false
+  );
+
+}
+
+
+/* ============================================================
+   BUTTON ACTION TYPE
+============================================================ */
 
 function changeButtonActionType(
   node,
@@ -4003,13 +4577,9 @@ function changeButtonActionType(
   ) {
 
     node.action = {
-
       type: "uri",
-
       label,
-
       uri: "https://line.me"
-
     };
 
   }
@@ -4020,13 +4590,9 @@ function changeButtonActionType(
   ) {
 
     node.action = {
-
       type: "message",
-
       label,
-
       text: "Hello"
-
     };
 
   }
@@ -4035,19 +4601,18 @@ function changeButtonActionType(
   else {
 
     node.action = {
-
       type: "postback",
-
       label,
-
-      data: "action=example"
-
+      data: "action=example",
+      displayText: "Example"
     };
 
   }
 
 
-  afterModelChange();
+  refreshModelViews(
+    true
+  );
 
 }
 
@@ -4060,8 +4625,12 @@ function addComponent(
   type
 ) {
 
-  if (!commitJsonIfNeeded()) {
+  if (
+    !commitJsonIfNeeded()
+  ) {
+
     return;
+
   }
 
 
@@ -4071,14 +4640,13 @@ function addComponent(
     );
 
 
-  if (!targetPath) {
+  if (
+    !targetPath
+  ) {
 
     showStatus(
-
       "Select a Box or an element inside a Box first.",
-
       "error"
-
     );
 
     return;
@@ -4115,20 +4683,22 @@ function addComponent(
 
 
   selectedPath = [
-
     ...targetPath,
-
     "contents",
-
     box.contents.length - 1
-
   ];
 
 
-  afterModelChange();
+  refreshModelViews(
+    true
+  );
 
 }
 
+
+/* ============================================================
+   CREATE COMPONENT
+============================================================ */
 
 function createComponent(
   type
@@ -4139,106 +4709,81 @@ function createComponent(
     case "text":
 
       return {
-
         type: "text",
-
         text: "New text",
-
         wrap: true,
-
         size: "md"
-
       };
 
 
     case "image":
 
       return {
-
         type: "image",
 
         url:
           "https://developers-resource.landpress.line.me/fx/img/01_1_cafe.png",
 
         size: "full",
-
         aspectRatio: "20:13",
-
         aspectMode: "cover"
-
       };
 
 
     case "button":
 
       return {
-
         type: "button",
-
         style: "primary",
-
         color: "#06C755",
 
         action: {
-
           type: "uri",
-
           label: "Open",
-
           uri: "https://line.me"
-
         }
-
       };
 
 
     case "box":
 
       return {
-
         type: "box",
-
         layout: "vertical",
-
         spacing: "sm",
 
         contents: [
-
           {
-
             type: "text",
-
             text: "New Box",
-
             wrap: true
-
           }
-
         ]
-
       };
 
 
     case "separator":
 
       return {
-
         type: "separator",
-
         margin: "md"
-
       };
 
 
     case "spacer":
 
       return {
-
         type: "spacer",
-
         size: "md"
-
       };
+
+
+    default:
+
+      throw new Error(
+        "Unknown component: " +
+        type
+      );
 
   }
 
@@ -4246,53 +4791,63 @@ function createComponent(
 
 
 /* ============================================================
-   ADD BUBBLE / CONVERT TO CAROUSEL
+   ADD BUBBLE / CAROUSEL
 ============================================================ */
 
 function addBubble() {
 
-  if (!commitJsonIfNeeded()) {
+  if (
+    !commitJsonIfNeeded()
+  ) {
+
     return;
+
   }
 
 
   if (
-    flexModel.type ===
-    "bubble"
+    flexModel.type === "bubble"
   ) {
 
     flexModel = {
-
       type: "carousel",
 
       contents: [
-
         deepClone(
           flexModel
         ),
 
         createDefaultBubble()
-
       ]
-
     };
 
 
     selectedPath = [
-
       "contents",
-
       1
-
     ];
 
   }
 
 
   else if (
-    flexModel.type ===
-    "carousel"
+    flexModel.type === "carousel"
   ) {
+
+    if (
+      flexModel.contents.length >=
+      12
+    ) {
+
+      showStatus(
+        "LINE Flex Carousel supports up to 12 bubbles.",
+        "error"
+      );
+
+      return;
+
+    }
+
 
     flexModel.contents.push(
       createDefaultBubble()
@@ -4300,23 +4855,22 @@ function addBubble() {
 
 
     selectedPath = [
-
       "contents",
-
       flexModel.contents.length - 1
-
     ];
 
   }
 
 
-  afterModelChange();
+  refreshModelViews(
+    true
+  );
 
 }
 
 
 /* ============================================================
-   FIND TARGET BOX
+   FIND NEAREST BOX
 ============================================================ */
 
 function findNearestBoxPath(
@@ -4327,9 +4881,7 @@ function findNearestBoxPath(
     [...path];
 
 
-  while (
-    current.length >= 0
-  ) {
+  while (true) {
 
     const node =
       getByPath(
@@ -4338,7 +4890,8 @@ function findNearestBoxPath(
 
 
     if (
-      node?.type === "box"
+      node?.type ===
+      "box"
     ) {
 
       return current;
@@ -4347,7 +4900,8 @@ function findNearestBoxPath(
 
 
     if (
-      current.length === 0
+      current.length ===
+      0
     ) {
 
       break;
@@ -4360,15 +4914,15 @@ function findNearestBoxPath(
   }
 
 
-  /* Bubble root */
-
-  let bubblePath =
+  const bubblePath =
     findNearestBubblePath(
       path
     );
 
 
-  if (bubblePath) {
+  if (
+    bubblePath
+  ) {
 
     const bubble =
       getByPath(
@@ -4376,27 +4930,22 @@ function findNearestBoxPath(
       );
 
 
-    if (!bubble.body) {
+    if (
+      !bubble.body
+    ) {
 
       bubble.body = {
-
         type: "box",
-
         layout: "vertical",
-
         contents: []
-
       };
 
     }
 
 
     return [
-
       ...bubblePath,
-
       "body"
-
     ];
 
   }
@@ -4407,6 +4956,10 @@ function findNearestBoxPath(
 }
 
 
+/* ============================================================
+   FIND NEAREST BUBBLE
+============================================================ */
+
 function findNearestBubblePath(
   path
 ) {
@@ -4415,9 +4968,7 @@ function findNearestBubblePath(
     [...path];
 
 
-  while (
-    current.length >= 0
-  ) {
+  while (true) {
 
     const node =
       getByPath(
@@ -4436,7 +4987,8 @@ function findNearestBubblePath(
 
 
     if (
-      current.length === 0
+      current.length ===
+      0
     ) {
 
       break;
@@ -4460,17 +5012,22 @@ function findNearestBubblePath(
 
 function removeSelected() {
 
-  if (!commitJsonIfNeeded()) {
+  if (
+    !commitJsonIfNeeded()
+  ) {
+
     return;
+
   }
 
 
   if (
-    selectedPath.length === 0
+    selectedPath.length ===
+    0
   ) {
 
     showStatus(
-      "Cannot remove root.",
+      "Cannot remove root Flex.",
       "error"
     );
 
@@ -4486,11 +5043,11 @@ function removeSelected() {
 
 
   if (!info) {
+
     return;
+
   }
 
-
-  /* Array item */
 
   if (
     Array.isArray(
@@ -4498,18 +5055,21 @@ function removeSelected() {
     )
   ) {
 
-    info.parent.splice(
+    const index =
       Number(
         info.key
-      ),
+      );
+
+
+    info.parent.splice(
+      index,
       1
     );
 
 
     selectedPath =
-      info.parentPath.slice(
-        0,
-        -1
+      findSafeSelectionAfterDelete(
+        info.parentPath
       );
 
   }
@@ -4527,7 +5087,41 @@ function removeSelected() {
   }
 
 
-  afterModelChange();
+  refreshModelViews(
+    true
+  );
+
+}
+
+
+/* ============================================================
+   SAFE SELECTION
+============================================================ */
+
+function findSafeSelectionAfterDelete(
+  arrayPath
+) {
+
+  /*
+   arrayPath example:
+   ["body","contents"]
+  */
+
+  if (
+    arrayPath[
+      arrayPath.length - 1
+    ] === "contents"
+  ) {
+
+    return arrayPath.slice(
+      0,
+      -1
+    );
+
+  }
+
+
+  return [];
 
 }
 
@@ -4538,17 +5132,22 @@ function removeSelected() {
 
 function duplicateSelected() {
 
-  if (!commitJsonIfNeeded()) {
+  if (
+    !commitJsonIfNeeded()
+  ) {
+
     return;
+
   }
 
 
   if (
-    selectedPath.length === 0
+    selectedPath.length ===
+    0
   ) {
 
     showStatus(
-      "Select a component first.",
+      "Select an element first.",
       "error"
     );
 
@@ -4571,11 +5170,8 @@ function duplicateSelected() {
   ) {
 
     showStatus(
-
       "This element cannot be duplicated here.",
-
       "error"
-
     );
 
     return;
@@ -4590,15 +5186,11 @@ function duplicateSelected() {
 
 
   info.parent.splice(
-
     index + 1,
-
     0,
-
     deepClone(
       info.parent[index]
     )
-
   );
 
 
@@ -4608,7 +5200,9 @@ function duplicateSelected() {
     index + 1;
 
 
-  afterModelChange();
+  refreshModelViews(
+    true
+  );
 
 }
 
@@ -4621,8 +5215,12 @@ function moveSelected(
   direction
 ) {
 
-  if (!commitJsonIfNeeded()) {
+  if (
+    !commitJsonIfNeeded()
+  ) {
+
     return;
+
   }
 
 
@@ -4658,7 +5256,7 @@ function moveSelected(
   if (
     next < 0 ||
     next >=
-      info.parent.length
+    info.parent.length
   ) {
 
     return;
@@ -4670,10 +5268,8 @@ function moveSelected(
     info.parent[index],
     info.parent[next]
   ] = [
-
     info.parent[next],
     info.parent[index]
-
   ];
 
 
@@ -4683,7 +5279,9 @@ function moveSelected(
     next;
 
 
-  afterModelChange();
+  refreshModelViews(
+    true
+  );
 
 }
 
@@ -4692,16 +5290,49 @@ function moveSelected(
    SELECTED ELEMENT JSON
 ============================================================ */
 
+function syncSelectedJson() {
+
+  const node =
+    getByPath(
+      selectedPath
+    );
+
+
+  document.getElementById(
+    "elementJsonEditor"
+  ).value =
+    node
+      ? JSON.stringify(
+          node,
+          null,
+          2
+        )
+      : "";
+
+}
+
+
+/* ============================================================
+   APPLY ELEMENT JSON
+============================================================ */
+
 function applyElementJson() {
 
   try {
 
-    if (
-      selectedPath.length === 0
-    ) {
+    const raw =
+      document
+        .getElementById(
+          "elementJsonEditor"
+        )
+        .value
+        .trim();
+
+
+    if (!raw) {
 
       throw new Error(
-        "Use Full Flex JSON to replace root."
+        "Element JSON is empty."
       );
 
     }
@@ -4709,29 +5340,62 @@ function applyElementJson() {
 
     const value =
       JSON.parse(
-
-        document
-          .getElementById(
-            "elementJsonEditor"
-          )
-          .value
-
+        raw
       );
 
 
-    const info =
-      getParentInfo(
-        selectedPath
+    if (
+      selectedPath.length ===
+      0
+    ) {
+
+      /*
+       * Root selected:
+       * replace whole Flex model.
+       */
+
+      validateFlex(
+        value
       );
 
 
-    info.parent[
-      info.key
-    ] =
-      value;
+      flexModel =
+        value;
 
 
-    afterModelChange();
+      selectedPath =
+        getDefaultSelectionPath();
+
+    }
+
+    else {
+
+      const info =
+        getParentInfo(
+          selectedPath
+        );
+
+
+      if (!info) {
+
+        throw new Error(
+          "Parent element not found."
+        );
+
+      }
+
+
+      info.parent[
+        info.key
+      ] =
+        value;
+
+    }
+
+
+    refreshModelViews(
+      true
+    );
 
 
     showStatus(
@@ -4744,12 +5408,9 @@ function applyElementJson() {
   catch (error) {
 
     showStatus(
-
       "Element JSON error: " +
       error.message,
-
       "error"
-
     );
 
   }
@@ -4779,19 +5440,21 @@ function syncFullJson() {
 }
 
 
+/* ============================================================
+   APPLY FULL JSON
+============================================================ */
+
 function applyFullJson() {
 
   try {
 
     const parsed =
       JSON.parse(
-
         document
           .getElementById(
             "jsonEditor"
           )
           .value
-
       );
 
 
@@ -4825,18 +5488,19 @@ function applyFullJson() {
   catch (error) {
 
     showStatus(
-
       "JSON error: " +
       error.message,
-
       "error"
-
     );
 
   }
 
 }
 
+
+/* ============================================================
+   FORMAT JSON
+============================================================ */
 
 function formatFullJson() {
 
@@ -4872,6 +5536,7 @@ function formatFullJson() {
   catch (error) {
 
     showStatus(
+      "JSON error: " +
       error.message,
       "error"
     );
@@ -4881,18 +5546,20 @@ function formatFullJson() {
 }
 
 
+/* ============================================================
+   COPY JSON
+============================================================ */
+
 async function copyFullJson() {
 
   try {
 
     await navigator.clipboard.writeText(
-
       document
         .getElementById(
           "jsonEditor"
         )
         .value
-
     );
 
 
@@ -4903,7 +5570,7 @@ async function copyFullJson() {
 
   }
 
-  catch {
+  catch (error) {
 
     showStatus(
       "Unable to copy JSON.",
@@ -4916,12 +5583,14 @@ async function copyFullJson() {
 
 
 /* ============================================================
-   COMMIT RAW JSON
+   RAW JSON COMMIT
 ============================================================ */
 
 function commitJsonIfNeeded() {
 
-  if (!jsonDirty) {
+  if (
+    !jsonDirty
+  ) {
 
     return true;
 
@@ -4932,13 +5601,11 @@ function commitJsonIfNeeded() {
 
     const parsed =
       JSON.parse(
-
         document
           .getElementById(
             "jsonEditor"
           )
           .value
-
       );
 
 
@@ -4959,6 +5626,13 @@ function commitJsonIfNeeded() {
       false;
 
 
+    renderTree();
+
+    renderPreview();
+
+    renderProperties();
+
+
     return true;
 
   }
@@ -4966,12 +5640,9 @@ function commitJsonIfNeeded() {
   catch (error) {
 
     showStatus(
-
-      "Fix JSON first: " +
+      "Fix Full JSON first: " +
       error.message,
-
       "error"
-
     );
 
 
@@ -4983,7 +5654,7 @@ function commitJsonIfNeeded() {
 
 
 /* ============================================================
-   VALIDATE
+   FLEX VALIDATION
 ============================================================ */
 
 function validateFlex(
@@ -5008,24 +5679,39 @@ function validateFlex(
   ) {
 
     throw new Error(
-
       'Root type must be "bubble" or "carousel".'
-
     );
 
   }
 
 
   if (
-    json.type === "carousel" &&
-    !Array.isArray(
-      json.contents
-    )
+    json.type === "carousel"
   ) {
 
-    throw new Error(
-      "Carousel must contain contents array."
-    );
+    if (
+      !Array.isArray(
+        json.contents
+      )
+    ) {
+
+      throw new Error(
+        "Carousel must contain contents array."
+      );
+
+    }
+
+
+    if (
+      json.contents.length >
+      12
+    ) {
+
+      throw new Error(
+        "Carousel cannot contain more than 12 bubbles."
+      );
+
+    }
 
   }
 
@@ -5036,10 +5722,12 @@ function validateFlex(
 
 
 /* ============================================================
-   MODEL CHANGE
+   REFRESH MODEL VIEWS
 ============================================================ */
 
-function afterModelChange() {
+function refreshModelViews(
+  rebuildProperties = true
+) {
 
   jsonDirty =
     false;
@@ -5049,7 +5737,21 @@ function afterModelChange() {
 
   renderPreview();
 
-  renderProperties();
+
+  if (
+    rebuildProperties
+  ) {
+
+    renderProperties();
+
+  }
+
+  else {
+
+    syncSelectedJson();
+
+  }
+
 
   syncFullJson();
 
@@ -5060,9 +5762,7 @@ function afterModelChange() {
    RENDER EVERYTHING
 ============================================================ */
 
-function renderAll(
-  syncJson = true
-) {
+function renderAll() {
 
   renderTree();
 
@@ -5070,12 +5770,7 @@ function renderAll(
 
   renderProperties();
 
-
-  if (syncJson) {
-
-    syncFullJson();
-
-  }
+  syncFullJson();
 
 }
 
@@ -5095,7 +5790,9 @@ function getDefaultSelectionPath() {
       flexModel.body
     ) {
 
-      return ["body"];
+      return [
+        "body"
+      ];
 
     }
 
@@ -5142,7 +5839,7 @@ function getDefaultSelectionPath() {
 
 
 /* ============================================================
-   PREVIEW UTILITIES
+   PREVIEW SIZE HELPERS
 ============================================================ */
 
 function flexSizeToPx(
@@ -5150,7 +5847,6 @@ function flexSizeToPx(
 ) {
 
   const map = {
-
     xxs: "10px",
     xs: "11px",
     sm: "13px",
@@ -5161,12 +5857,13 @@ function flexSizeToPx(
     "3xl": "28px",
     "4xl": "32px",
     "5xl": "36px"
-
   };
 
 
-  return map[size] ||
-    "15px";
+  return (
+    map[size] ||
+    "15px"
+  );
 
 }
 
@@ -5176,7 +5873,6 @@ function spacingToPx(
 ) {
 
   const map = {
-
     none: "0px",
     xs: "4px",
     sm: "8px",
@@ -5184,12 +5880,13 @@ function spacingToPx(
     lg: "16px",
     xl: "20px",
     xxl: "28px"
-
   };
 
 
-  return map[value] ||
-    "0px";
+  return (
+    map[value] ||
+    "0px"
+  );
 
 }
 
@@ -5210,7 +5907,6 @@ function flexRadiusToPx(
 ) {
 
   const map = {
-
     none: "0px",
     xs: "4px",
     sm: "7px",
@@ -5218,12 +5914,13 @@ function flexRadiusToPx(
     lg: "14px",
     xl: "20px",
     xxl: "30px"
-
   };
 
 
-  return map[value] ||
-    "0px";
+  return (
+    map[value] ||
+    "0px"
+  );
 
 }
 
@@ -5233,9 +5930,10 @@ function normalizeColor(
 ) {
 
   if (
-    /^#[0-9A-Fa-f]{6}$/.test(
-      color
-    )
+    /^#[0-9A-Fa-f]{6}$/
+      .test(
+        color
+      )
   ) {
 
     return color;
@@ -5249,7 +5947,7 @@ function normalizeColor(
 
 
 /* ============================================================
-   STATUS
+   STATUS TOAST
 ============================================================ */
 
 let statusTimer;
@@ -5299,14 +5997,13 @@ function showStatus(
 
 
 /* ============================================================
-   START
+   START APP
 ============================================================ */
-
-renderAll();
 
 init();
 
 </script>
 
 </body>
+
 </html>
