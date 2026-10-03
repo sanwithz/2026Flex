@@ -10,6 +10,7 @@
   <title>LINE Flex Studio</title>
 
   <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <style>
     :root {
@@ -1240,6 +1241,14 @@ async function apiRequest(body) {
   let response;
 
 
+  // Add a nonce so every request is treated as fresh.
+  // Code.gs can safely ignore this extra property.
+  const requestBody = {
+    ...body,
+    _ts: Date.now()
+  };
+
+
   try {
 
     response =
@@ -1254,10 +1263,13 @@ async function apiRequest(body) {
           },
 
           body:
-            JSON.stringify(body),
+            JSON.stringify(requestBody),
 
           redirect:
-            "follow"
+            "follow",
+
+          cache:
+            "no-store"
         }
       );
 
@@ -1704,7 +1716,25 @@ function renderUser() {
    TEMPLATE LIBRARY
 ============================================================ */
 
-async function loadTemplateList() {
+async function loadTemplateList(showLoading = false) {
+
+  if (showLoading) {
+
+    const list =
+      document.getElementById(
+        "templateList"
+      );
+
+
+    if (list) {
+
+      list.innerHTML =
+        `<div class="empty-state">Refreshing from Google Sheet...</div>`;
+
+    }
+
+  }
+
 
   try {
 
@@ -2197,10 +2227,36 @@ async function deleteCurrentTemplate() {
   }
 
 
+  const templateName =
+    document
+      .getElementById(
+        "templateName"
+      )
+      .value
+      .trim()
+    ||
+    "this template";
+
+
+  const confirmResult =
+    await Swal.fire({
+      title: "Delete template?",
+      html:
+        `You are about to delete <b>${escapeHtml(templateName)}</b>.<br>` +
+        `This action cannot be undone.`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Delete",
+      cancelButtonText: "Cancel",
+      confirmButtonColor: "#D92D20",
+      cancelButtonColor: "#64748B",
+      reverseButtons: true,
+      focusCancel: true
+    });
+
+
   if (
-    !confirm(
-      "Delete this template?"
-    )
+    !confirmResult.isConfirmed
   ) {
 
     return;
@@ -2210,6 +2266,18 @@ async function deleteCurrentTemplate() {
 
   try {
 
+    Swal.fire({
+      title: "Deleting...",
+      text: "Updating Google Sheet and refreshing the template library.",
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      showConfirmButton: false,
+      didOpen: () => {
+        Swal.showLoading();
+      }
+    });
+
+
     await server(
       "deleteTemplate",
       currentTemplateId,
@@ -2217,6 +2285,7 @@ async function deleteCurrentTemplate() {
     );
 
 
+    // Reset the currently opened template.
     currentTemplateId =
       null;
 
@@ -2227,6 +2296,10 @@ async function deleteCurrentTemplate() {
 
     selectedPath =
       ["body"];
+
+
+    jsonDirty =
+      false;
 
 
     document.getElementById(
@@ -2244,27 +2317,40 @@ async function deleteCurrentTemplate() {
     renderAll();
 
 
-    await loadTemplateList();
+    // Clear stale local data first, then fetch a completely fresh
+    // template list from Google Sheet.
+    templates = [];
+
+    renderTemplateList();
+
+    await loadTemplateList(true);
 
 
-    showStatus(
-      "Template deleted.",
-      "success"
-    );
+    await Swal.fire({
+      icon: "success",
+      title: "Deleted",
+      text: `${templateName} was deleted and the Template Library was refreshed.`,
+      timer: 1600,
+      showConfirmButton: false
+    });
 
   }
 
   catch (error) {
 
-    showStatus(
-      "Delete failed: " +
-      error.message,
-      "error"
-    );
+    await Swal.fire({
+      icon: "error",
+      title: "Delete failed",
+      text:
+        error.message ||
+        String(error),
+      confirmButtonColor: "#087B40"
+    });
 
   }
 
 }
+
 
 
 /* ============================================================
@@ -7302,6 +7388,24 @@ function normalizeColor(
 
 
 /* ============================================================
+   SAFE HTML FOR SWEETALERT
+============================================================ */
+
+function escapeHtml(value) {
+
+  return String(
+    value ?? ""
+  )
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+
+}
+
+
+/* ============================================================
    STATUS
 ============================================================ */
 
@@ -7313,6 +7417,42 @@ function showStatus(
   type = ""
 ) {
 
+  // Prefer SweetAlert2 toast for normal notifications.
+  if (
+    typeof Swal !== "undefined"
+  ) {
+
+    const iconMap = {
+      success: "success",
+      error: "error",
+      warning: "warning",
+      info: "info"
+    };
+
+
+    Swal.fire({
+      toast: true,
+      position: "top-end",
+      icon:
+        iconMap[type] ||
+        "info",
+      title:
+        message,
+      showConfirmButton: false,
+      timer:
+        type === "error"
+          ? 3500
+          : 1800,
+      timerProgressBar: true
+    });
+
+
+    return;
+
+  }
+
+
+  // Fallback in case the SweetAlert CDN is unavailable.
   clearTimeout(
     statusTimer
   );
@@ -7349,6 +7489,7 @@ function showStatus(
     );
 
 }
+
 
 
 /* ============================================================
