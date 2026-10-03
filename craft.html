@@ -1,38 +1,28 @@
 <!DOCTYPE html>
 <html lang="th">
-
 <head>
-  <meta charset="UTF-8">
-
+  <meta charset="UTF-8" />
   <meta
     name="viewport"
     content="width=device-width, initial-scale=1, viewport-fit=cover"
-  >
+  />
 
   <title>LINE Flex Studio</title>
 
-  <!-- LINE LIFF SDK -->
   <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
 
   <style>
     :root {
       --primary: #06c755;
-      --primary-dark: #05a947;
       --brand: #087b40;
-
-      --background: #f5f7f6;
+      --bg: #f5f7f6;
       --card: #ffffff;
       --surface: #f9fbfa;
-
       --border: #dfe6e2;
-
       --text: #17211c;
       --muted: #718078;
-
       --danger: #d92d20;
       --blue: #2563eb;
-
-      --radius: 12px;
     }
 
     * {
@@ -41,26 +31,25 @@
 
     body {
       margin: 0;
-
       font-family:
         Inter,
         -apple-system,
         BlinkMacSystemFont,
         "Segoe UI",
+        "Noto Sans Thai",
         sans-serif;
 
-      background: var(--background);
+      background: var(--bg);
       color: var(--text);
     }
 
-    /* =====================================================
+    /* =========================================================
        HEADER
-    ===================================================== */
+    ========================================================= */
 
     header {
       min-height: 68px;
-
-      background: white;
+      background: #fff;
       border-bottom: 1px solid var(--border);
 
       display: flex;
@@ -68,12 +57,10 @@
       justify-content: space-between;
 
       gap: 20px;
-
       padding: 12px 20px;
 
       position: sticky;
       top: 0;
-
       z-index: 30;
     }
 
@@ -89,7 +76,6 @@
     .user-info {
       display: flex;
       align-items: center;
-
       gap: 8px;
 
       font-size: 13px;
@@ -101,15 +87,32 @@
       height: 34px;
 
       border-radius: 50%;
-
       object-fit: cover;
 
       background: #edf2ef;
     }
 
-    /* =====================================================
-       MAIN LAYOUT
-    ===================================================== */
+    .api-dot {
+      width: 8px;
+      height: 8px;
+
+      display: inline-block;
+      border-radius: 50%;
+
+      background: #aaa;
+    }
+
+    .api-dot.online {
+      background: #06c755;
+    }
+
+    .api-dot.offline {
+      background: #d92d20;
+    }
+
+    /* =========================================================
+       LAYOUT
+    ========================================================= */
 
     .app {
       display: grid;
@@ -120,17 +123,16 @@
         380px;
 
       gap: 14px;
-
       padding: 14px;
 
       min-height: calc(100vh - 68px);
     }
 
     .panel {
-      background: white;
+      background: #fff;
 
       border: 1px solid var(--border);
-      border-radius: var(--radius);
+      border-radius: 12px;
 
       overflow: hidden;
     }
@@ -155,9 +157,9 @@
       padding: 14px;
     }
 
-    /* =====================================================
-       BUTTON
-    ===================================================== */
+    /* =========================================================
+       BUTTONS
+    ========================================================= */
 
     button {
       border: 0;
@@ -170,11 +172,11 @@
       font-weight: 600;
       font-size: 13px;
 
-      transition: 0.15s;
+      transition: opacity 0.15s;
     }
 
     button:hover {
-      opacity: 0.92;
+      opacity: 0.9;
     }
 
     button:disabled {
@@ -184,12 +186,12 @@
 
     .btn-primary {
       background: var(--primary);
-      color: white;
+      color: #fff;
     }
 
     .btn-dark {
       background: #17211c;
-      color: white;
+      color: #fff;
     }
 
     .btn-light {
@@ -199,7 +201,7 @@
 
     .btn-blue {
       background: var(--blue);
-      color: white;
+      color: #fff;
     }
 
     .btn-danger {
@@ -212,9 +214,9 @@
       font-size: 12px;
     }
 
-    /* =====================================================
+    /* =========================================================
        FORM
-    ===================================================== */
+    ========================================================= */
 
     label {
       display: block;
@@ -235,7 +237,7 @@
 
       padding: 9px 10px;
 
-      background: white;
+      background: #fff;
       color: var(--text);
 
       font-size: 13px;
@@ -253,9 +255,9 @@
       margin-bottom: 12px;
     }
 
-    /* =====================================================
+    /* =========================================================
        TEMPLATE LIBRARY
-    ===================================================== */
+    ========================================================= */
 
     .template-search {
       margin-bottom: 10px;
@@ -275,8 +277,6 @@
       margin-bottom: 7px;
 
       cursor: pointer;
-
-      transition: 0.15s;
     }
 
     .template-item:hover,
@@ -308,9 +308,9 @@
       padding: 25px 8px;
     }
 
-    /* =====================================================
+    /* =========================================================
        EDITOR
-    ===================================================== */
+    ========================================================= */
 
     .editor-toolbar {
       display: flex;
@@ -320,7 +320,6 @@
 
     .metadata {
       display: grid;
-
       grid-template-columns: 1fr 1fr;
 
       gap: 10px;
@@ -329,10 +328,6 @@
 
       border-bottom: 1px solid var(--border);
     }
-
-    /* =====================================================
-       COMPONENT TOOLBAR
-    ===================================================== */
 
     .component-toolbar {
       padding: 10px 14px;
@@ -344,25 +339,23 @@
       gap: 6px;
 
       border-bottom: 1px solid var(--border);
-
       background: var(--surface);
     }
 
-    /* =====================================================
+    /* =========================================================
        DESIGN AREA
-    ===================================================== */
+    ========================================================= */
 
     .design-area {
       display: grid;
-
       grid-template-columns: 230px 1fr;
 
       min-height: 650px;
     }
 
-    /* =====================================================
-       STRUCTURE TREE
-    ===================================================== */
+    /* =========================================================
+       TREE
+    ========================================================= */
 
     .tree-area {
       border-right: 1px solid var(--border);
@@ -376,9 +369,7 @@
 
     .tree-title {
       font-weight: 700;
-
       font-size: 11px;
-
       letter-spacing: 0.5px;
 
       margin-bottom: 10px;
@@ -398,6 +389,8 @@
       margin-bottom: 2px;
 
       white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .tree-row:hover {
@@ -406,15 +399,14 @@
 
     .tree-row.selected {
       background: #e7f8ed;
-
       color: var(--brand);
 
       font-weight: 700;
     }
 
-    /* =====================================================
+    /* =========================================================
        PREVIEW
-    ===================================================== */
+    ========================================================= */
 
     .preview-area {
       background:
@@ -431,7 +423,6 @@
       overflow: auto;
 
       display: flex;
-
       justify-content: center;
       align-items: flex-start;
     }
@@ -441,7 +432,7 @@
 
       min-height: 120px;
 
-      background: white;
+      background: #fff;
 
       border-radius: 15px;
 
@@ -453,13 +444,14 @@
       flex-shrink: 0;
     }
 
-    .preview-section {
-      padding: 16px;
-    }
-
     .preview-box {
       display: flex;
+
       min-width: 0;
+
+      box-sizing: border-box;
+
+      position: relative;
     }
 
     .preview-element {
@@ -472,13 +464,12 @@
       outline-offset: 2px;
     }
 
-    /* =====================================================
+    /* =========================================================
        INSPECTOR
-    ===================================================== */
+    ========================================================= */
 
     .inspector {
       max-height: calc(100vh - 96px);
-
       overflow-y: auto;
     }
 
@@ -510,10 +501,6 @@
       margin-bottom: 12px;
     }
 
-    /* =====================================================
-       JSON
-    ===================================================== */
-
     #jsonEditor,
     #elementJsonEditor {
       font-family:
@@ -523,7 +510,6 @@
         monospace;
 
       line-height: 1.5;
-
       font-size: 12px;
 
       resize: vertical;
@@ -537,32 +523,9 @@
       height: 200px;
     }
 
-    /* =====================================================
-       API STATUS
-    ===================================================== */
-
-    .api-dot {
-      width: 8px;
-      height: 8px;
-
-      display: inline-block;
-
-      border-radius: 50%;
-
-      background: #aaa;
-    }
-
-    .api-dot.online {
-      background: #06c755;
-    }
-
-    .api-dot.offline {
-      background: #d92d20;
-    }
-
-    /* =====================================================
-       STATUS TOAST
-    ===================================================== */
+    /* =========================================================
+       STATUS
+    ========================================================= */
 
     .status {
       position: fixed;
@@ -573,7 +536,7 @@
       max-width: 420px;
 
       background: #17211c;
-      color: white;
+      color: #fff;
 
       border-radius: 8px;
 
@@ -597,20 +560,17 @@
       background: #b42318;
     }
 
-    /* =====================================================
+    /* =========================================================
        RESPONSIVE
-    ===================================================== */
+    ========================================================= */
 
     @media (max-width: 1150px) {
       .app {
-        grid-template-columns:
-          220px
-          1fr;
+        grid-template-columns: 220px 1fr;
       }
 
       .inspector {
         grid-column: 1 / -1;
-
         max-height: none;
       }
     }
@@ -618,7 +578,6 @@
     @media (max-width: 780px) {
       header {
         align-items: flex-start;
-
         flex-direction: column;
       }
 
@@ -636,7 +595,6 @@
 
       .tree-area {
         border-right: 0;
-
         border-bottom: 1px solid var(--border);
 
         max-height: 220px;
@@ -649,31 +607,17 @@
       .flex-preview {
         width: min(350px, 94vw);
       }
-
-      .editor-toolbar {
-        width: 100%;
-      }
     }
   </style>
 </head>
 
-
 <body>
 
-<!-- =========================================================
-     HEADER
-========================================================= -->
-
 <header>
-
   <div class="brand">
     <h1>LINE Flex Studio</h1>
-
-    <small>
-      Visual Designer · JSON · Google Sheet Templates
-    </small>
+    <small>Visual Designer · JSON · Google Sheet Templates</small>
   </div>
-
 
   <div
     id="userInfo"
@@ -685,33 +629,21 @@
       title="Apps Script API"
     ></span>
 
-    <span id="userLabel">
-      Connecting...
-    </span>
+    <span>Connecting...</span>
   </div>
-
 </header>
 
 
-<!-- =========================================================
-     APP
-========================================================= -->
-
 <div class="app">
 
-
   <!-- =======================================================
-       LEFT : TEMPLATE LIBRARY
+       TEMPLATE LIBRARY
   ======================================================== -->
 
   <section class="panel">
 
     <div class="panel-header">
-
-      <span>
-        Template Library
-      </span>
-
+      <span>Template Library</span>
 
       <button
         class="btn-light btn-small"
@@ -719,7 +651,6 @@
       >
         + New
       </button>
-
     </div>
 
 
@@ -730,7 +661,7 @@
         class="template-search"
         placeholder="Search templates..."
         oninput="renderTemplateList()"
-      >
+      />
 
 
       <div
@@ -748,17 +679,14 @@
 
 
   <!-- =======================================================
-       CENTER : DESIGNER
+       FLEX DESIGNER
   ======================================================== -->
 
   <section class="panel">
 
-
     <div class="panel-header">
 
-      <span>
-        Flex Designer
-      </span>
+      <span>Flex Designer</span>
 
 
       <div class="editor-toolbar">
@@ -770,14 +698,12 @@
           New
         </button>
 
-
         <button
           class="btn-primary"
           onclick="saveCurrentTemplate()"
         >
           Save
         </button>
-
 
         <button
           class="btn-light"
@@ -786,14 +712,12 @@
           Duplicate
         </button>
 
-
         <button
           class="btn-danger"
           onclick="deleteCurrentTemplate()"
         >
           Delete
         </button>
-
 
         <button
           class="btn-dark"
@@ -807,42 +731,30 @@
     </div>
 
 
-    <!-- Metadata -->
-
     <div class="metadata">
 
       <div>
-
-        <label>
-          Template Name
-        </label>
+        <label>Template Name</label>
 
         <input
           id="templateName"
-          placeholder="Biology Course Card"
-        >
-
+          placeholder="Bhumibol Dam"
+        />
       </div>
 
 
       <div>
-
-        <label>
-          LINE altText
-        </label>
+        <label>LINE altText</label>
 
         <input
           id="altText"
           value="Flex Message"
           maxlength="400"
-        >
-
+        />
       </div>
 
     </div>
 
-
-    <!-- Component Toolbar -->
 
     <div class="component-toolbar">
 
@@ -853,14 +765,12 @@
         + Text
       </button>
 
-
       <button
         class="btn-light"
         onclick="addComponent('image')"
       >
         + Image
       </button>
-
 
       <button
         class="btn-light"
@@ -869,14 +779,12 @@
         + Button
       </button>
 
-
       <button
         class="btn-light"
         onclick="addComponent('box')"
       >
         + Box
       </button>
-
 
       <button
         class="btn-light"
@@ -885,14 +793,12 @@
         + Separator
       </button>
 
-
       <button
         class="btn-light"
         onclick="addComponent('spacer')"
       >
         + Spacer
       </button>
-
 
       <button
         class="btn-blue"
@@ -913,7 +819,6 @@
         ↑
       </button>
 
-
       <button
         class="btn-light"
         onclick="moveSelected(1)"
@@ -922,14 +827,12 @@
         ↓
       </button>
 
-
       <button
         class="btn-light"
         onclick="duplicateSelected()"
       >
         Copy
       </button>
-
 
       <button
         class="btn-danger"
@@ -941,30 +844,19 @@
     </div>
 
 
-    <!-- Design Area -->
-
     <div class="design-area">
 
-
-      <!-- Structure Tree -->
-
       <div class="tree-area">
-
         <div class="tree-title">
           STRUCTURE
         </div>
 
         <div id="structureTree"></div>
-
       </div>
 
 
-      <!-- Preview -->
-
       <div class="preview-area">
-
         <div id="previewRoot"></div>
-
       </div>
 
     </div>
@@ -973,7 +865,7 @@
 
 
   <!-- =======================================================
-       RIGHT : PROPERTY INSPECTOR
+       INSPECTOR
   ======================================================== -->
 
   <section class="panel inspector">
@@ -989,19 +881,13 @@
     ></div>
 
 
-    <!-- Selected Element JSON -->
-
     <div class="inspector-section">
 
-      <h3>
-        Selected Element JSON
-      </h3>
-
+      <h3>Selected Element JSON</h3>
 
       <textarea
         id="elementJsonEditor"
       ></textarea>
-
 
       <button
         style="margin-top:8px"
@@ -1014,18 +900,13 @@
     </div>
 
 
-    <!-- Full JSON -->
-
     <div class="inspector-section">
 
-      <h3>
-        Full Flex JSON
-      </h3>
-
+      <h3>Full Flex JSON</h3>
 
       <textarea
         id="jsonEditor"
-        oninput="jsonDirty = true"
+        oninput="jsonDirty=true"
       ></textarea>
 
 
@@ -1037,14 +918,12 @@
           margin-top:8px;
         "
       >
-
         <button
           class="btn-blue"
           onclick="applyFullJson()"
         >
           Apply JSON
         </button>
-
 
         <button
           class="btn-light"
@@ -1053,14 +932,12 @@
           Format
         </button>
 
-
         <button
           class="btn-light"
           onclick="copyFullJson()"
         >
           Copy
         </button>
-
       </div>
 
     </div>
@@ -1079,7 +956,7 @@
 <script>
 
 /* ============================================================
-   CONFIGURATION
+   CONFIG
 ============================================================ */
 
 const LIFF_ID =
@@ -1112,49 +989,234 @@ let lineUser = {
 
 /* ============================================================
    DEFAULT FLEX
+   Your Bhumibol Dam Example
 ============================================================ */
 
 function createDefaultBubble() {
 
   return {
-    type: "bubble",
+    "type": "bubble",
 
-    body: {
-      type: "box",
-      layout: "vertical",
-      spacing: "md",
+    "body": {
+      "type": "box",
+      "layout": "vertical",
+      "paddingAll": "24px",
+      "spacing": "none",
 
-      contents: [
+      "contents": [
         {
-          type: "text",
-          text: "Hello, World!",
-          weight: "bold",
-          size: "xl",
-          wrap: true,
-          color: "#17211C"
+          "type": "text",
+          "text": "เขื่อนภูมิพล",
+          "weight": "bold",
+          "size": "xxl",
+          "color": "#1E2A5A"
         },
 
         {
-          type: "text",
-          text: "Edit this Flex Message visually.",
-          color: "#718078",
-          size: "sm",
-          wrap: true
+          "type": "text",
+          "text": "แม่น้ำปิง จังหวัดตาก",
+          "size": "md",
+          "color": "#8A8A8A",
+          "margin": "sm"
         },
 
         {
-          type: "button",
-          style: "primary",
-          color: "#06C755",
-          margin: "md",
+          "type": "box",
+          "layout": "baseline",
+          "margin": "xxl",
 
-          action: {
-            type: "uri",
-            label: "Open website",
-            uri: "https://line.me"
+          "contents": [
+            {
+              "type": "text",
+              "text": "64.2%",
+              "weight": "bold",
+              "size": "4xl",
+              "color": "#3F5FD1",
+              "flex": 0
+            },
+
+            {
+              "type": "text",
+              "text": "ของความจุ",
+              "size": "md",
+              "color": "#8A8A8A",
+              "margin": "md"
+            }
+          ]
+        },
+
+        {
+          "type": "box",
+          "layout": "vertical",
+          "margin": "lg",
+          "height": "12px",
+          "cornerRadius": "6px",
+          "backgroundColor": "#E6E9F5",
+
+          "contents": [
+            {
+              "type": "box",
+              "layout": "vertical",
+              "width": "64.2%",
+              "height": "12px",
+              "cornerRadius": "6px",
+              "backgroundColor": "#3F5FD1",
+              "contents": []
+            }
+          ]
+        },
+
+        {
+          "type": "box",
+          "layout": "vertical",
+          "margin": "xl",
+          "spacing": "md",
+
+          "contents": [
+            {
+              "type": "box",
+              "layout": "horizontal",
+
+              "contents": [
+                {
+                  "type": "text",
+                  "text": "น้ำในอ่าง",
+                  "size": "md",
+                  "color": "#666666",
+                  "flex": 0
+                },
+
+                {
+                  "type": "text",
+                  "text": "8,642 ล้าน ลบ.ม.",
+                  "size": "md",
+                  "color": "#333333",
+                  "align": "end"
+                }
+              ]
+            },
+
+            {
+              "type": "box",
+              "layout": "horizontal",
+
+              "contents": [
+                {
+                  "type": "text",
+                  "text": "ความจุ",
+                  "size": "md",
+                  "color": "#666666",
+                  "flex": 0
+                },
+
+                {
+                  "type": "text",
+                  "text": "13,462 ล้าน ลบ.ม.",
+                  "size": "md",
+                  "color": "#333333",
+                  "align": "end"
+                }
+              ]
+            },
+
+            {
+              "type": "box",
+              "layout": "horizontal",
+
+              "contents": [
+                {
+                  "type": "text",
+                  "text": "น้ำไหลลงอ่าง",
+                  "size": "md",
+                  "color": "#666666",
+                  "flex": 0
+                },
+
+                {
+                  "type": "text",
+                  "text": "133 ล้าน ลบ.ม./วัน",
+                  "size": "md",
+                  "color": "#333333",
+                  "align": "end"
+                }
+              ]
+            },
+
+            {
+              "type": "box",
+              "layout": "horizontal",
+
+              "contents": [
+                {
+                  "type": "text",
+                  "text": "น้ำระบาย",
+                  "size": "md",
+                  "color": "#666666",
+                  "flex": 0
+                },
+
+                {
+                  "type": "text",
+                  "text": "3 ล้าน ลบ.ม./วัน",
+                  "size": "md",
+                  "color": "#333333",
+                  "align": "end"
+                }
+              ]
+            }
+          ]
+        },
+
+        {
+          "type": "text",
+          "text": "ข้อมูลวันที่ 29 ก.ย. 2569 จาก ThaiWater",
+          "size": "xs",
+          "color": "#AAAAAA",
+          "wrap": true,
+          "margin": "xl"
+        }
+      ]
+    },
+
+    "footer": {
+      "type": "box",
+      "layout": "vertical",
+      "paddingAll": "16px",
+      "spacing": "sm",
+
+      "contents": [
+        {
+          "type": "button",
+          "style": "primary",
+          "color": "#1E2A5A",
+          "height": "md",
+
+          "action": {
+            "type": "uri",
+            "label": "รายละเอียด",
+            "uri": "https://www.thaiwater.net/water/dam/large"
+          }
+        },
+
+        {
+          "type": "button",
+          "style": "link",
+          "color": "#1E2A5A",
+          "height": "sm",
+
+          "action": {
+            "type": "uri",
+            "label": "ดูบนแผนที่",
+            "uri": "https://www.google.com/maps/search/?api=1&query=17.2425,98.9722"
           }
         }
       ]
+    },
+
+    "styles": {
+      "footer": {
+        "separator": true
+      }
     }
   };
 
@@ -1170,12 +1232,13 @@ let selectedPath =
 
 
 /* ============================================================
-   APPS SCRIPT FETCH API
+   APPS SCRIPT API
 ============================================================ */
 
 async function apiRequest(body) {
 
   let response;
+
 
   try {
 
@@ -1185,12 +1248,6 @@ async function apiRequest(body) {
         {
           method: "POST",
 
-          /*
-           * Important:
-           *
-           * text/plain avoids application/json CORS preflight
-           * with Google Apps Script Web App.
-           */
           headers: {
             "Content-Type":
               "text/plain;charset=utf-8"
@@ -1283,7 +1340,7 @@ async function apiRequest(body) {
 
 
 /* ============================================================
-   SERVER COMPATIBILITY WRAPPER
+   API ROUTER
 ============================================================ */
 
 async function server(
@@ -1362,6 +1419,11 @@ function setApiStatus(online) {
     );
 
 
+  if (!dot) {
+    return;
+  }
+
+
   dot.classList.remove(
     "online",
     "offline"
@@ -1408,7 +1470,7 @@ async function testApi() {
   catch (error) {
 
     console.error(
-      "API ping error:",
+      "API ping:",
       error
     );
 
@@ -1426,7 +1488,7 @@ async function testApi() {
 
 
 /* ============================================================
-   INITIALIZE
+   INIT
 ============================================================ */
 
 async function init() {
@@ -1440,7 +1502,8 @@ async function init() {
   try {
 
     await liff.init({
-      liffId: LIFF_ID
+      liffId:
+        LIFF_ID
     });
 
 
@@ -1457,7 +1520,6 @@ async function init() {
 
     await loadLineProfile();
 
-
     await loadTemplateList();
 
   }
@@ -1465,7 +1527,7 @@ async function init() {
   catch (error) {
 
     console.error(
-      "LIFF init:",
+      "LIFF:",
       error
     );
 
@@ -1506,15 +1568,11 @@ async function loadLineProfile() {
         ""
     };
 
-
-    renderUser();
-
   }
 
   catch (error) {
 
     console.warn(
-      "liff.getProfile failed:",
       error
     );
 
@@ -1525,7 +1583,9 @@ async function loadLineProfile() {
         liff.getDecodedIDToken();
 
 
-      if (token?.sub) {
+      if (
+        token?.sub
+      ) {
 
         lineUser.id =
           token.sub;
@@ -1533,7 +1593,9 @@ async function loadLineProfile() {
       }
 
 
-      if (token?.name) {
+      if (
+        token?.name
+      ) {
 
         lineUser.name =
           token.name;
@@ -1544,16 +1606,16 @@ async function loadLineProfile() {
 
     catch (_) {}
 
-
-    renderUser();
-
   }
+
+
+  renderUser();
 
 }
 
 
 /* ============================================================
-   USER UI
+   RENDER USER
 ============================================================ */
 
 function renderUser() {
@@ -1564,7 +1626,8 @@ function renderUser() {
     );
 
 
-  root.innerHTML = "";
+  root.innerHTML =
+    "";
 
 
   const dot =
@@ -1620,25 +1683,25 @@ function renderUser() {
   }
 
 
-  const span =
+  const text =
     document.createElement(
       "span"
     );
 
 
-  span.textContent =
+  text.textContent =
     lineUser.name;
 
 
   root.appendChild(
-    span
+    text
   );
 
 }
 
 
 /* ============================================================
-   LOAD TEMPLATE LIST
+   TEMPLATE LIBRARY
 ============================================================ */
 
 async function loadTemplateList() {
@@ -1686,10 +1749,6 @@ async function loadTemplateList() {
 }
 
 
-/* ============================================================
-   RENDER TEMPLATE LIST
-============================================================ */
-
 function renderTemplateList() {
 
   const root =
@@ -1698,7 +1757,8 @@ function renderTemplateList() {
     );
 
 
-  root.innerHTML = "";
+  root.innerHTML =
+    "";
 
 
   const query =
@@ -1720,7 +1780,9 @@ function renderTemplateList() {
           ""
         )
           .toLowerCase()
-          .includes(query)
+          .includes(
+            query
+          )
     );
 
 
@@ -1895,7 +1957,6 @@ async function openTemplate(id) {
 
     renderAll();
 
-
     renderTemplateList();
 
 
@@ -1937,9 +1998,14 @@ function newTemplate() {
     ["body"];
 
 
+  jsonDirty =
+    false;
+
+
   document.getElementById(
     "templateName"
-  ).value = "";
+  ).value =
+    "";
 
 
   document.getElementById(
@@ -1948,12 +2014,7 @@ function newTemplate() {
     "Flex Message";
 
 
-  jsonDirty =
-    false;
-
-
   renderAll();
-
 
   renderTemplateList();
 
@@ -1996,7 +2057,9 @@ async function saveCurrentTemplate() {
         .trim();
 
 
-    if (!templateName) {
+    if (
+      !templateName
+    ) {
 
       throw new Error(
         "Please enter Template Name."
@@ -2095,13 +2158,11 @@ function duplicateTemplate() {
     );
 
 
-  const original =
-    input.value.trim() ||
-    "Flex Template";
-
-
   input.value =
-    original +
+    (
+      input.value.trim() ||
+      "Flex Template"
+    ) +
     " Copy";
 
 
@@ -2149,11 +2210,6 @@ async function deleteCurrentTemplate() {
 
   try {
 
-    showStatus(
-      "Deleting..."
-    );
-
-
     await server(
       "deleteTemplate",
       currentTemplateId,
@@ -2175,7 +2231,8 @@ async function deleteCurrentTemplate() {
 
     document.getElementById(
       "templateName"
-    ).value = "";
+    ).value =
+      "";
 
 
     document.getElementById(
@@ -2211,7 +2268,7 @@ async function deleteCurrentTemplate() {
 
 
 /* ============================================================
-   SHARE FLEX
+   SHARE LINE
 ============================================================ */
 
 async function shareFlex() {
@@ -2250,8 +2307,7 @@ async function shareFlex() {
     ) {
 
       throw new Error(
-        "shareTargetPicker is unavailable. " +
-        "Check your LIFF settings."
+        "shareTargetPicker is unavailable. Check LIFF settings."
       );
 
     }
@@ -2268,23 +2324,32 @@ async function shareFlex() {
       "Flex Message";
 
 
+    const flexToSend =
+      sanitizeFlexForLine(
+        deepClone(
+          flexModel
+        )
+      );
+
+
     const result =
       await liff.shareTargetPicker([
         {
-          type: "flex",
+          type:
+            "flex",
 
           altText:
             altText,
 
           contents:
-            deepClone(
-              flexModel
-            )
+            flexToSend
         }
       ]);
 
 
-    if (result) {
+    if (
+      result
+    ) {
 
       showStatus(
         "Flex Message shared.",
@@ -2309,7 +2374,122 @@ async function shareFlex() {
 
 
 /* ============================================================
-   PATH HELPERS
+   SANITIZE URL
+============================================================ */
+
+function sanitizeFlexForLine(obj) {
+
+  walkObject(
+    obj,
+    value => {
+
+      if (
+        value &&
+        typeof value === "object" &&
+        value.type === "uri" &&
+        typeof value.uri === "string"
+      ) {
+
+        value.uri =
+          normalizeMarkdownUrl(
+            value.uri
+          );
+
+      }
+
+    }
+  );
+
+
+  return obj;
+
+}
+
+
+function normalizeMarkdownUrl(value) {
+
+  const text =
+    String(
+      value ||
+      ""
+    ).trim();
+
+
+  const match =
+    text.match(
+      /^\[([^\]]+)\]\((https?:\/\/.+)\)$/
+    );
+
+
+  if (
+    match
+  ) {
+
+    return match[2];
+
+  }
+
+
+  return text;
+
+}
+
+
+function walkObject(
+  value,
+  callback
+) {
+
+  if (
+    !value ||
+    typeof value !== "object"
+  ) {
+
+    return;
+
+  }
+
+
+  callback(
+    value
+  );
+
+
+  if (
+    Array.isArray(
+      value
+    )
+  ) {
+
+    value.forEach(
+      item =>
+        walkObject(
+          item,
+          callback
+        )
+    );
+
+  }
+
+  else {
+
+    Object.values(
+      value
+    ).forEach(
+      item =>
+        walkObject(
+          item,
+          callback
+        )
+    );
+
+  }
+
+}
+
+
+/* ============================================================
+   PATH
 ============================================================ */
 
 function getByPath(path) {
@@ -2323,8 +2503,8 @@ function getByPath(path) {
   ) {
 
     if (
-      value === undefined ||
-      value === null
+      value === null ||
+      value === undefined
     ) {
 
       return undefined;
@@ -2378,7 +2558,10 @@ function getParentInfo(path) {
 }
 
 
-function pathEquals(a, b) {
+function pathEquals(
+  a,
+  b
+) {
 
   return (
     JSON.stringify(a) ===
@@ -2400,7 +2583,7 @@ function deepClone(value) {
 
 
 /* ============================================================
-   STRUCTURE TREE
+   TREE
 ============================================================ */
 
 function renderTree() {
@@ -2411,7 +2594,8 @@ function renderTree() {
     );
 
 
-  root.innerHTML = "";
+  root.innerHTML =
+    "";
 
 
   appendTreeNode(
@@ -2508,8 +2692,6 @@ function appendTreeNode(
   );
 
 
-  /* Bubble Sections */
-
   if (
     node.type === "bubble"
   ) {
@@ -2545,8 +2727,6 @@ function appendTreeNode(
   }
 
 
-  /* Carousel */
-
   if (
     node.type === "carousel" &&
     Array.isArray(
@@ -2577,8 +2757,6 @@ function appendTreeNode(
 
   }
 
-
-  /* Box Children */
 
   if (
     node.type === "box" &&
@@ -2625,16 +2803,12 @@ function getNodeLabel(
     node.type === "text"
   ) {
 
-    const text =
+    return (
+      `${index + 1}. Text: ` +
       String(
         node.text ||
         ""
-      );
-
-
-    return (
-      `${index + 1}. Text: ` +
-      text.substring(
+      ).substring(
         0,
         18
       )
@@ -2681,11 +2855,13 @@ function renderPreview() {
     );
 
 
-  root.innerHTML = "";
+  root.innerHTML =
+    "";
 
 
   if (
-    flexModel.type === "carousel"
+    flexModel.type ===
+    "carousel"
   ) {
 
     const carousel =
@@ -2750,7 +2926,7 @@ function renderPreview() {
 
 
 /* ============================================================
-   PREVIEW BUBBLE
+   BUBBLE PREVIEW
 ============================================================ */
 
 function renderPreviewBubble(
@@ -2774,8 +2950,6 @@ function renderPreviewBubble(
   );
 
 
-  /* HERO */
-
   if (
     bubble.hero
   ) {
@@ -2786,14 +2960,13 @@ function renderPreviewBubble(
         [
           ...path,
           "hero"
-        ]
+        ],
+        null
       )
     );
 
   }
 
-
-  /* Header / Body / Footer */
 
   [
     "header",
@@ -2814,16 +2987,6 @@ function renderPreviewBubble(
 
 
       const section =
-        document.createElement(
-          "div"
-        );
-
-
-      section.className =
-        "preview-section";
-
-
-      section.appendChild(
         renderPreviewNode(
           bubble[
             sectionName
@@ -2831,9 +2994,38 @@ function renderPreviewBubble(
           [
             ...path,
             sectionName
-          ]
-        )
-      );
+          ],
+          null
+        );
+
+
+      const sectionStyle =
+        bubble.styles?.[
+          sectionName
+        ];
+
+
+      if (
+        sectionStyle?.backgroundColor
+      ) {
+
+        section.style.backgroundColor =
+          sectionStyle.backgroundColor;
+
+      }
+
+
+      if (
+        sectionStyle?.separator
+      ) {
+
+        section.style.borderTop =
+          `1px solid ${
+            sectionStyle.separatorColor ||
+            "#E5E7EB"
+          }`;
+
+      }
 
 
       card.appendChild(
@@ -2855,7 +3047,8 @@ function renderPreviewBubble(
 
 function renderPreviewNode(
   node,
-  path
+  path,
+  parentLayout
 ) {
 
   if (!node) {
@@ -2870,7 +3063,9 @@ function renderPreviewNode(
   let el;
 
 
-  /* TEXT */
+  /* ==============================
+     TEXT
+  ============================== */
 
   if (
     node.type === "text"
@@ -2900,7 +3095,7 @@ function renderPreviewNode(
 
 
     el.style.fontSize =
-      flexSizeToPx(
+      flexSizeToCss(
         node.size
       );
 
@@ -2915,10 +3110,8 @@ function renderPreviewNode(
       "start";
 
 
-    el.style.marginTop =
-      marginToPx(
-        node.margin
-      );
+    el.style.lineHeight =
+      "1.35";
 
 
     if (
@@ -2945,7 +3138,9 @@ function renderPreviewNode(
   }
 
 
-  /* IMAGE */
+  /* ==============================
+     IMAGE
+  ============================== */
 
   else if (
     node.type === "image"
@@ -2974,22 +3169,21 @@ function renderPreviewNode(
       "100%";
 
 
-    el.style.width =
-      node.size === "full"
-        ? "100%"
-        : "auto";
-
-
-    el.style.marginTop =
-      marginToPx(
-        node.margin
-      );
-
-
     el.style.objectFit =
       node.aspectMode === "fit"
         ? "contain"
         : "cover";
+
+
+    if (
+      node.size === "full" &&
+      !node.width
+    ) {
+
+      el.style.width =
+        "100%";
+
+    }
 
 
     if (
@@ -3031,7 +3225,9 @@ function renderPreviewNode(
   }
 
 
-  /* BUTTON */
+  /* ==============================
+     BUTTON
+  ============================== */
 
   else if (
     node.type === "button"
@@ -3052,10 +3248,42 @@ function renderPreviewNode(
       "100%";
 
 
-    el.style.marginTop =
-      marginToPx(
-        node.margin
-      );
+    el.style.borderRadius =
+      "8px";
+
+
+    el.style.fontSize =
+      "15px";
+
+
+    el.style.fontWeight =
+      "700";
+
+
+    if (
+      node.height === "sm"
+    ) {
+
+      el.style.minHeight =
+        "40px";
+
+    }
+
+    else if (
+      node.height === "md"
+    ) {
+
+      el.style.minHeight =
+        "48px";
+
+    }
+
+    else {
+
+      el.style.minHeight =
+        "44px";
+
+    }
 
 
     if (
@@ -3101,7 +3329,9 @@ function renderPreviewNode(
   }
 
 
-  /* BOX */
+  /* ==============================
+     BOX
+  ============================== */
 
   else if (
     node.type === "box"
@@ -3117,11 +3347,14 @@ function renderPreviewNode(
       "preview-box";
 
 
+    const layout =
+      node.layout ||
+      "vertical";
+
+
     if (
-      node.layout ===
-      "horizontal" ||
-      node.layout ===
-      "baseline"
+      layout === "horizontal" ||
+      layout === "baseline"
     ) {
 
       el.style.flexDirection =
@@ -3138,8 +3371,7 @@ function renderPreviewNode(
 
 
     if (
-      node.layout ===
-      "baseline"
+      layout === "baseline"
     ) {
 
       el.style.alignItems =
@@ -3148,23 +3380,47 @@ function renderPreviewNode(
     }
 
 
-    el.style.gap =
-      spacingToPx(
-        node.spacing
-      );
+    if (
+      node.justifyContent
+    ) {
+
+      el.style.justifyContent =
+        flexAlignmentToCss(
+          node.justifyContent
+        );
+
+    }
 
 
-    el.style.marginTop =
-      marginToPx(
-        node.margin
-      );
+    if (
+      node.alignItems
+    ) {
+
+      el.style.alignItems =
+        flexAlignmentToCss(
+          node.alignItems
+        );
+
+    }
+
+
+    if (
+      node.spacing
+    ) {
+
+      el.style.gap =
+        spacingToCss(
+          node.spacing
+        );
+
+    }
 
 
     if (
       node.backgroundColor
     ) {
 
-      el.style.background =
+      el.style.backgroundColor =
         node.backgroundColor;
 
     }
@@ -3175,23 +3431,118 @@ function renderPreviewNode(
     ) {
 
       el.style.borderRadius =
-        flexRadiusToPx(
+        flexRadiusToCss(
           node.cornerRadius
         );
 
     }
 
 
+    applyDimensions(
+      el,
+      node
+    );
+
+
+    applyPadding(
+      el,
+      node
+    );
+
+
     if (
-      node.paddingAll
+      node.borderWidth
     ) {
 
-      el.style.padding =
-        spacingToPx(
-          node.paddingAll
+      el.style.borderStyle =
+        "solid";
+
+
+      el.style.borderWidth =
+        flexDimensionToCss(
+          node.borderWidth
+        );
+
+
+      el.style.borderColor =
+        node.borderColor ||
+        "#000000";
+
+    }
+
+
+    if (
+      node.position ===
+      "absolute"
+    ) {
+
+      el.style.position =
+        "absolute";
+
+    }
+
+    else {
+
+      el.style.position =
+        "relative";
+
+    }
+
+
+    if (
+      node.offsetTop
+    ) {
+
+      el.style.top =
+        flexDimensionToCss(
+          node.offsetTop
         );
 
     }
+
+
+    if (
+      node.offsetBottom
+    ) {
+
+      el.style.bottom =
+        flexDimensionToCss(
+          node.offsetBottom
+        );
+
+    }
+
+
+    if (
+      node.offsetStart
+    ) {
+
+      el.style.left =
+        flexDimensionToCss(
+          node.offsetStart
+        );
+
+    }
+
+
+    if (
+      node.offsetEnd
+    ) {
+
+      el.style.right =
+        flexDimensionToCss(
+          node.offsetEnd
+        );
+
+    }
+
+
+    /*
+     * Important for progress bars:
+     * prevents colored child box escaping radius.
+     */
+    el.style.overflow =
+      "hidden";
 
 
     (
@@ -3210,16 +3561,47 @@ function renderPreviewNode(
               ...path,
               "contents",
               index
-            ]
+            ],
+            layout
           );
 
 
+        /*
+         * LINE horizontal/baseline Flex behavior.
+         *
+         * flex: 0 = natural width
+         * missing flex = flexible remaining space
+         */
         if (
-          child.flex
+          layout === "horizontal" ||
+          layout === "baseline"
         ) {
 
-          childEl.style.flex =
-            child.flex;
+          if (
+            child.flex === 0
+          ) {
+
+            childEl.style.flex =
+              "0 0 auto";
+
+          }
+
+          else if (
+            child.flex !== undefined &&
+            child.flex !== null
+          ) {
+
+            childEl.style.flex =
+              `${child.flex} ${child.flex} 0%`;
+
+          }
+
+          else {
+
+            childEl.style.flex =
+              "1 1 0%";
+
+          }
 
         }
 
@@ -3234,47 +3616,72 @@ function renderPreviewNode(
   }
 
 
-  /* SEPARATOR */
+  /* ==============================
+     SEPARATOR
+  ============================== */
 
   else if (
     node.type ===
     "separator"
   ) {
 
-    el =
-      document.createElement(
-        "hr"
-      );
+    if (
+      parentLayout === "horizontal"
+    ) {
+
+      el =
+        document.createElement(
+          "div"
+        );
 
 
-    el.style.border =
-      "0";
+      el.style.width =
+        "1px";
 
 
-    el.style.borderTop =
-      `1px solid ${
+      el.style.alignSelf =
+        "stretch";
+
+
+      el.style.background =
         node.color ||
-        "#dddddd"
-      }`;
+        "#dddddd";
+
+    }
+
+    else {
+
+      el =
+        document.createElement(
+          "hr"
+        );
 
 
-    el.style.width =
-      "100%";
+      el.style.border =
+        "0";
 
 
-    el.style.marginTop =
-      marginToPx(
-        node.margin
-      );
+      el.style.borderTop =
+        `1px solid ${
+          node.color ||
+          "#dddddd"
+        }`;
+
+
+      el.style.width =
+        "100%";
+
+    }
 
   }
 
 
-  /* SPACER */
+  /* ==============================
+     SPACER
+  ============================== */
 
   else if (
-    node.type ===
-    "spacer"
+    node.type === "spacer"
   ) {
 
     el =
@@ -3283,14 +3690,34 @@ function renderPreviewNode(
       );
 
 
-    el.style.height =
-      spacingToPx(
-        node.size ||
-        "md"
-      );
+    if (
+      parentLayout === "horizontal"
+    ) {
+
+      el.style.width =
+        spacingToCss(
+          node.size ||
+          "md"
+        );
+
+    }
+
+    else {
+
+      el.style.height =
+        spacingToCss(
+          node.size ||
+          "md"
+        );
+
+    }
 
   }
 
+
+  /* ==============================
+     UNKNOWN
+  ============================== */
 
   else {
 
@@ -3314,6 +3741,29 @@ function renderPreviewNode(
   }
 
 
+  applyDimensions(
+    el,
+    node
+  );
+
+
+  applyMargin(
+    el,
+    node,
+    parentLayout
+  );
+
+
+  if (
+    node.flex === 0
+  ) {
+
+    el.style.flex =
+      "0 0 auto";
+
+  }
+
+
   el.classList.add(
     "preview-element"
   );
@@ -3331,7 +3781,207 @@ function renderPreviewNode(
 
 
 /* ============================================================
-   PREVIEW SELECT
+   DIMENSION
+   Critical fix for chart / progress bar
+============================================================ */
+
+function applyDimensions(
+  el,
+  node
+) {
+
+  if (
+    node.width
+  ) {
+
+    el.style.width =
+      flexDimensionToCss(
+        node.width
+      );
+
+  }
+
+
+  if (
+    node.height
+  ) {
+
+    el.style.height =
+      flexDimensionToCss(
+        node.height
+      );
+
+  }
+
+
+  if (
+    node.maxWidth
+  ) {
+
+    el.style.maxWidth =
+      flexDimensionToCss(
+        node.maxWidth
+      );
+
+  }
+
+
+  if (
+    node.maxHeight
+  ) {
+
+    el.style.maxHeight =
+      flexDimensionToCss(
+        node.maxHeight
+      );
+
+  }
+
+
+  if (
+    node.minWidth
+  ) {
+
+    el.style.minWidth =
+      flexDimensionToCss(
+        node.minWidth
+      );
+
+  }
+
+
+  if (
+    node.minHeight
+  ) {
+
+    el.style.minHeight =
+      flexDimensionToCss(
+        node.minHeight
+      );
+
+  }
+
+}
+
+
+/* ============================================================
+   PADDING
+============================================================ */
+
+function applyPadding(
+  el,
+  node
+) {
+
+  if (
+    node.paddingAll
+  ) {
+
+    el.style.padding =
+      spacingToCss(
+        node.paddingAll
+      );
+
+  }
+
+
+  if (
+    node.paddingTop
+  ) {
+
+    el.style.paddingTop =
+      spacingToCss(
+        node.paddingTop
+      );
+
+  }
+
+
+  if (
+    node.paddingBottom
+  ) {
+
+    el.style.paddingBottom =
+      spacingToCss(
+        node.paddingBottom
+      );
+
+  }
+
+
+  if (
+    node.paddingStart
+  ) {
+
+    el.style.paddingLeft =
+      spacingToCss(
+        node.paddingStart
+      );
+
+  }
+
+
+  if (
+    node.paddingEnd
+  ) {
+
+    el.style.paddingRight =
+      spacingToCss(
+        node.paddingEnd
+      );
+
+  }
+
+}
+
+
+/* ============================================================
+   MARGIN
+============================================================ */
+
+function applyMargin(
+  el,
+  node,
+  parentLayout
+) {
+
+  if (
+    !node.margin
+  ) {
+
+    return;
+
+  }
+
+
+  const margin =
+    spacingToCss(
+      node.margin
+    );
+
+
+  if (
+    parentLayout === "horizontal" ||
+    parentLayout === "baseline"
+  ) {
+
+    el.style.marginLeft =
+      margin;
+
+  }
+
+  else {
+
+    el.style.marginTop =
+      margin;
+
+  }
+
+}
+
+
+/* ============================================================
+   SELECT PREVIEW ELEMENT
 ============================================================ */
 
 function makePreviewSelectable(
@@ -3388,7 +4038,8 @@ function renderProperties() {
     );
 
 
-  root.innerHTML = "";
+  root.innerHTML =
+    "";
 
 
   const node =
@@ -3397,7 +4048,9 @@ function renderProperties() {
     );
 
 
-  if (!node) {
+  if (
+    !node
+  ) {
 
     root.textContent =
       "Select an element.";
@@ -3500,8 +4153,7 @@ function renderProperties() {
     addSelectField(
       root,
       "Weight",
-      node.weight ||
-      "regular",
+      node.weight || "regular",
       [
         "regular",
         "bold"
@@ -3517,8 +4169,7 @@ function renderProperties() {
     addColorField(
       root,
       "Text Color",
-      node.color ||
-      "#222222",
+      node.color || "#222222",
       value =>
         updatePropertyLive(
           "color",
@@ -3530,8 +4181,7 @@ function renderProperties() {
     addSelectField(
       root,
       "Align",
-      node.align ||
-      "start",
+      node.align || "start",
       [
         "start",
         "center",
@@ -3545,11 +4195,46 @@ function renderProperties() {
     );
 
 
+    addTextField(
+      root,
+      "Width",
+      node.width || "",
+      value =>
+        updatePropertyLive(
+          "width",
+          value
+        )
+    );
+
+
+    addTextField(
+      root,
+      "Height",
+      node.height || "",
+      value =>
+        updatePropertyLive(
+          "height",
+          value
+        )
+    );
+
+
+    addNumberField(
+      root,
+      "Flex",
+      node.flex,
+      value =>
+        updateNumberProperty(
+          "flex",
+          value
+        )
+    );
+
+
     addSelectField(
       root,
       "Margin",
-      node.margin ||
-      "",
+      node.margin || "",
       [
         "",
         "none",
@@ -3603,8 +4288,7 @@ function renderProperties() {
     addSelectField(
       root,
       "Size",
-      node.size ||
-      "full",
+      node.size || "full",
       [
         "xxs",
         "xs",
@@ -3628,9 +4312,32 @@ function renderProperties() {
 
     addTextField(
       root,
+      "Width",
+      node.width || "",
+      value =>
+        updatePropertyLive(
+          "width",
+          value
+        )
+    );
+
+
+    addTextField(
+      root,
+      "Height",
+      node.height || "",
+      value =>
+        updatePropertyLive(
+          "height",
+          value
+        )
+    );
+
+
+    addTextField(
+      root,
       "Aspect Ratio",
-      node.aspectRatio ||
-      "20:13",
+      node.aspectRatio || "20:13",
       value =>
         updatePropertyLive(
           "aspectRatio",
@@ -3642,8 +4349,7 @@ function renderProperties() {
     addSelectField(
       root,
       "Aspect Mode",
-      node.aspectMode ||
-      "cover",
+      node.aspectMode || "cover",
       [
         "cover",
         "fit"
@@ -3651,28 +4357,6 @@ function renderProperties() {
       value =>
         updateProperty(
           "aspectMode",
-          value
-        )
-    );
-
-
-    addSelectField(
-      root,
-      "Margin",
-      node.margin || "",
-      [
-        "",
-        "none",
-        "xs",
-        "sm",
-        "md",
-        "lg",
-        "xl",
-        "xxl"
-      ],
-      value =>
-        updateProperty(
-          "margin",
           value
         )
     );
@@ -3702,8 +4386,7 @@ function renderProperties() {
     addTextField(
       root,
       "Button Label",
-      node.action.label ||
-      "",
+      node.action.label || "",
       value => {
 
         node.action.label =
@@ -3721,8 +4404,7 @@ function renderProperties() {
     addSelectField(
       root,
       "Style",
-      node.style ||
-      "primary",
+      node.style || "primary",
       [
         "primary",
         "secondary",
@@ -3739,8 +4421,7 @@ function renderProperties() {
     addColorField(
       root,
       "Button Color",
-      node.color ||
-      "#06C755",
+      node.color || "#06C755",
       value =>
         updatePropertyLive(
           "color",
@@ -3751,9 +4432,24 @@ function renderProperties() {
 
     addSelectField(
       root,
+      "Height",
+      node.height || "md",
+      [
+        "sm",
+        "md"
+      ],
+      value =>
+        updateProperty(
+          "height",
+          value
+        )
+    );
+
+
+    addSelectField(
+      root,
       "Action Type",
-      node.action.type ||
-      "uri",
+      node.action.type || "uri",
       [
         "uri",
         "message",
@@ -3774,8 +4470,7 @@ function renderProperties() {
       addTextField(
         root,
         "URL",
-        node.action.uri ||
-        "",
+        node.action.uri || "",
         value => {
 
           node.action.uri =
@@ -3799,8 +4494,7 @@ function renderProperties() {
       addTextField(
         root,
         "Message",
-        node.action.text ||
-        "",
+        node.action.text || "",
         value => {
 
           node.action.text =
@@ -3824,8 +4518,7 @@ function renderProperties() {
       addTextField(
         root,
         "Postback Data",
-        node.action.data ||
-        "",
+        node.action.data || "",
         value => {
 
           node.action.data =
@@ -3843,11 +4536,12 @@ function renderProperties() {
       addTextField(
         root,
         "Display Text",
-        node.action.displayText ||
-        "",
+        node.action.displayText || "",
         value => {
 
-          if (value) {
+          if (
+            value
+          ) {
 
             node.action.displayText =
               value;
@@ -3882,8 +4576,7 @@ function renderProperties() {
     addSelectField(
       root,
       "Layout",
-      node.layout ||
-      "vertical",
+      node.layout || "vertical",
       [
         "vertical",
         "horizontal",
@@ -3892,6 +4585,42 @@ function renderProperties() {
       value =>
         updateProperty(
           "layout",
+          value
+        )
+    );
+
+
+    addTextField(
+      root,
+      "Width",
+      node.width || "",
+      value =>
+        updatePropertyLive(
+          "width",
+          value
+        )
+    );
+
+
+    addTextField(
+      root,
+      "Height",
+      node.height || "",
+      value =>
+        updatePropertyLive(
+          "height",
+          value
+        )
+    );
+
+
+    addNumberField(
+      root,
+      "Flex",
+      node.flex,
+      value =>
+        updateNumberProperty(
+          "flex",
           value
         )
     );
@@ -3941,11 +4670,22 @@ function renderProperties() {
     );
 
 
+    addTextField(
+      root,
+      "Padding All",
+      node.paddingAll || "",
+      value =>
+        updatePropertyLive(
+          "paddingAll",
+          value
+        )
+    );
+
+
     addColorField(
       root,
       "Background",
-      node.backgroundColor ||
-      "#ffffff",
+      node.backgroundColor || "#ffffff",
       value =>
         updatePropertyLive(
           "backgroundColor",
@@ -3954,23 +4694,12 @@ function renderProperties() {
     );
 
 
-    addSelectField(
+    addTextField(
       root,
       "Corner Radius",
-      node.cornerRadius ||
-      "",
-      [
-        "",
-        "none",
-        "xs",
-        "sm",
-        "md",
-        "lg",
-        "xl",
-        "xxl"
-      ],
+      node.cornerRadius || "",
       value =>
-        updateProperty(
+        updatePropertyLive(
           "cornerRadius",
           value
         )
@@ -3979,22 +4708,37 @@ function renderProperties() {
 
     addSelectField(
       root,
-      "Padding",
-      node.paddingAll ||
-      "",
+      "Justify Content",
+      node.justifyContent || "",
       [
         "",
-        "none",
-        "xs",
-        "sm",
-        "md",
-        "lg",
-        "xl",
-        "xxl"
+        "start",
+        "center",
+        "end",
+        "space-between",
+        "space-around"
       ],
       value =>
         updateProperty(
-          "paddingAll",
+          "justifyContent",
+          value
+        )
+    );
+
+
+    addSelectField(
+      root,
+      "Align Items",
+      node.alignItems || "",
+      [
+        "",
+        "start",
+        "center",
+        "end"
+      ],
+      value =>
+        updateProperty(
+          "alignItems",
           value
         )
     );
@@ -4011,8 +4755,7 @@ function renderProperties() {
     addColorField(
       root,
       "Color",
-      node.color ||
-      "#dddddd",
+      node.color || "#dddddd",
       value =>
         updatePropertyLive(
           "color",
@@ -4032,8 +4775,7 @@ function renderProperties() {
     addSelectField(
       root,
       "Size",
-      node.size ||
-      "md",
+      node.size || "md",
       [
         "xs",
         "sm",
@@ -4058,7 +4800,7 @@ function renderProperties() {
 
 
 /* ============================================================
-   FIELD UI HELPERS
+   PROPERTY UI
 ============================================================ */
 
 function createField(
@@ -4115,7 +4857,59 @@ function addTextField(
 
 
   input.value =
-    value ?? "";
+    value ??
+    "";
+
+
+  input.oninput =
+    () =>
+      onChange(
+        input.value
+      );
+
+
+  wrapper.appendChild(
+    input
+  );
+
+
+  root.appendChild(
+    wrapper
+  );
+
+}
+
+
+function addNumberField(
+  root,
+  labelText,
+  value,
+  onChange
+) {
+
+  const wrapper =
+    createField(
+      labelText
+    );
+
+
+  const input =
+    document.createElement(
+      "input"
+    );
+
+
+  input.type =
+    "number";
+
+
+  input.step =
+    "1";
+
+
+  input.value =
+    value ??
+    "";
 
 
   input.oninput =
@@ -4156,11 +4950,13 @@ function addTextareaField(
     );
 
 
-  input.rows = 4;
+  input.rows =
+    4;
 
 
   input.value =
-    value ?? "";
+    value ??
+    "";
 
 
   input.oninput =
@@ -4459,7 +5255,7 @@ function addCheckboxField(
 
 
 /* ============================================================
-   UPDATE PROPERTY
+   UPDATE MODEL
 ============================================================ */
 
 function updateProperty(
@@ -4512,15 +5308,20 @@ function updateProperty(
 }
 
 
-/*
- * Used while typing.
- * Does not rebuild property panel,
- * so cursor/input focus is preserved.
- */
 function updatePropertyLive(
   key,
   value
 ) {
+
+  if (
+    jsonDirty &&
+    !commitJsonIfNeeded()
+  ) {
+
+    return;
+
+  }
+
 
   const node =
     getByPath(
@@ -4558,8 +5359,51 @@ function updatePropertyLive(
 }
 
 
+function updateNumberProperty(
+  key,
+  value
+) {
+
+  const node =
+    getByPath(
+      selectedPath
+    );
+
+
+  if (!node) {
+
+    return;
+
+  }
+
+
+  if (
+    value === ""
+  ) {
+
+    delete node[key];
+
+  }
+
+  else {
+
+    node[key] =
+      Number(
+        value
+      );
+
+  }
+
+
+  refreshModelViews(
+    false
+  );
+
+}
+
+
 /* ============================================================
-   BUTTON ACTION TYPE
+   BUTTON ACTION
 ============================================================ */
 
 function changeButtonActionType(
@@ -4584,7 +5428,6 @@ function changeButtonActionType(
 
   }
 
-
   else if (
     type === "message"
   ) {
@@ -4596,7 +5439,6 @@ function changeButtonActionType(
     };
 
   }
-
 
   else {
 
@@ -4666,19 +5508,16 @@ function addComponent(
     )
   ) {
 
-    box.contents = [];
+    box.contents =
+      [];
 
   }
 
 
-  const component =
+  box.contents.push(
     createComponent(
       type
-    );
-
-
-  box.contents.push(
-    component
+    )
   );
 
 
@@ -4695,10 +5534,6 @@ function addComponent(
 
 }
 
-
-/* ============================================================
-   CREATE COMPONENT
-============================================================ */
 
 function createComponent(
   type
@@ -4720,10 +5555,8 @@ function createComponent(
 
       return {
         type: "image",
-
         url:
           "https://developers-resource.landpress.line.me/fx/img/01_1_cafe.png",
-
         size: "full",
         aspectRatio: "20:13",
         aspectMode: "cover"
@@ -4791,7 +5624,7 @@ function createComponent(
 
 
 /* ============================================================
-   ADD BUBBLE / CAROUSEL
+   CAROUSEL
 ============================================================ */
 
 function addBubble() {
@@ -4829,14 +5662,13 @@ function addBubble() {
 
   }
 
-
-  else if (
-    flexModel.type === "carousel"
-  ) {
+  else {
 
     if (
-      flexModel.contents.length >=
-      12
+      (
+        flexModel.contents ||
+        []
+      ).length >= 12
     ) {
 
       showStatus(
@@ -4870,12 +5702,10 @@ function addBubble() {
 
 
 /* ============================================================
-   FIND NEAREST BOX
+   FIND CONTAINER
 ============================================================ */
 
-function findNearestBoxPath(
-  path
-) {
+function findNearestBoxPath(path) {
 
   let current =
     [...path];
@@ -4900,8 +5730,7 @@ function findNearestBoxPath(
 
 
     if (
-      current.length ===
-      0
+      !current.length
     ) {
 
       break;
@@ -4956,13 +5785,7 @@ function findNearestBoxPath(
 }
 
 
-/* ============================================================
-   FIND NEAREST BUBBLE
-============================================================ */
-
-function findNearestBubblePath(
-  path
-) {
+function findNearestBubblePath(path) {
 
   let current =
     [...path];
@@ -4987,8 +5810,7 @@ function findNearestBubblePath(
 
 
     if (
-      current.length ===
-      0
+      !current.length
     ) {
 
       break;
@@ -5007,7 +5829,7 @@ function findNearestBubblePath(
 
 
 /* ============================================================
-   REMOVE SELECTED
+   DELETE / COPY / MOVE
 ============================================================ */
 
 function removeSelected() {
@@ -5022,8 +5844,7 @@ function removeSelected() {
 
 
   if (
-    selectedPath.length ===
-    0
+    !selectedPath.length
   ) {
 
     showStatus(
@@ -5055,22 +5876,22 @@ function removeSelected() {
     )
   ) {
 
-    const index =
+    info.parent.splice(
       Number(
         info.key
-      );
-
-
-    info.parent.splice(
-      index,
+      ),
       1
     );
 
 
     selectedPath =
-      findSafeSelectionAfterDelete(
-        info.parentPath
-      );
+      info.parentPath.at(-1) ===
+      "contents"
+        ? info.parentPath.slice(
+            0,
+            -1
+          )
+        : [];
 
   }
 
@@ -5094,62 +5915,11 @@ function removeSelected() {
 }
 
 
-/* ============================================================
-   SAFE SELECTION
-============================================================ */
-
-function findSafeSelectionAfterDelete(
-  arrayPath
-) {
-
-  /*
-   arrayPath example:
-   ["body","contents"]
-  */
-
-  if (
-    arrayPath[
-      arrayPath.length - 1
-    ] === "contents"
-  ) {
-
-    return arrayPath.slice(
-      0,
-      -1
-    );
-
-  }
-
-
-  return [];
-
-}
-
-
-/* ============================================================
-   DUPLICATE SELECTED
-============================================================ */
-
 function duplicateSelected() {
 
   if (
     !commitJsonIfNeeded()
   ) {
-
-    return;
-
-  }
-
-
-  if (
-    selectedPath.length ===
-    0
-  ) {
-
-    showStatus(
-      "Select an element first.",
-      "error"
-    );
 
     return;
 
@@ -5206,10 +5976,6 @@ function duplicateSelected() {
 
 }
 
-
-/* ============================================================
-   MOVE SELECTED
-============================================================ */
 
 function moveSelected(
   direction
@@ -5287,7 +6053,7 @@ function moveSelected(
 
 
 /* ============================================================
-   SELECTED ELEMENT JSON
+   SELECTED JSON
 ============================================================ */
 
 function syncSelectedJson() {
@@ -5312,47 +6078,23 @@ function syncSelectedJson() {
 }
 
 
-/* ============================================================
-   APPLY ELEMENT JSON
-============================================================ */
-
 function applyElementJson() {
 
   try {
 
-    const raw =
-      document
-        .getElementById(
-          "elementJsonEditor"
-        )
-        .value
-        .trim();
-
-
-    if (!raw) {
-
-      throw new Error(
-        "Element JSON is empty."
-      );
-
-    }
-
-
     const value =
       JSON.parse(
-        raw
+        document
+          .getElementById(
+            "elementJsonEditor"
+          )
+          .value
       );
 
 
     if (
-      selectedPath.length ===
-      0
+      !selectedPath.length
     ) {
-
-      /*
-       * Root selected:
-       * replace whole Flex model.
-       */
 
       validateFlex(
         value
@@ -5440,10 +6182,6 @@ function syncFullJson() {
 }
 
 
-/* ============================================================
-   APPLY FULL JSON
-============================================================ */
-
 function applyFullJson() {
 
   try {
@@ -5498,10 +6236,6 @@ function applyFullJson() {
 }
 
 
-/* ============================================================
-   FORMAT JSON
-============================================================ */
-
 function formatFullJson() {
 
   try {
@@ -5512,15 +6246,11 @@ function formatFullJson() {
       );
 
 
-    const parsed =
-      JSON.parse(
-        editor.value
-      );
-
-
     editor.value =
       JSON.stringify(
-        parsed,
+        JSON.parse(
+          editor.value
+        ),
         null,
         2
       );
@@ -5546,10 +6276,6 @@ function formatFullJson() {
 }
 
 
-/* ============================================================
-   COPY JSON
-============================================================ */
-
 async function copyFullJson() {
 
   try {
@@ -5570,7 +6296,7 @@ async function copyFullJson() {
 
   }
 
-  catch (error) {
+  catch {
 
     showStatus(
       "Unable to copy JSON.",
@@ -5581,10 +6307,6 @@ async function copyFullJson() {
 
 }
 
-
-/* ============================================================
-   RAW JSON COMMIT
-============================================================ */
 
 function commitJsonIfNeeded() {
 
@@ -5654,7 +6376,7 @@ function commitJsonIfNeeded() {
 
 
 /* ============================================================
-   FLEX VALIDATION
+   VALIDATION
 ============================================================ */
 
 function validateFlex(
@@ -5663,7 +6385,8 @@ function validateFlex(
 
   if (
     !json ||
-    typeof json !== "object"
+    typeof json !==
+    "object"
   ) {
 
     throw new Error(
@@ -5722,7 +6445,7 @@ function validateFlex(
 
 
 /* ============================================================
-   REFRESH MODEL VIEWS
+   RENDER
 ============================================================ */
 
 function refreshModelViews(
@@ -5758,10 +6481,6 @@ function refreshModelViews(
 }
 
 
-/* ============================================================
-   RENDER EVERYTHING
-============================================================ */
-
 function renderAll() {
 
   renderTree();
@@ -5775,10 +6494,6 @@ function renderAll() {
 }
 
 
-/* ============================================================
-   DEFAULT SELECTION
-============================================================ */
-
 function getDefaultSelectionPath() {
 
   if (
@@ -5786,18 +6501,9 @@ function getDefaultSelectionPath() {
     "bubble"
   ) {
 
-    if (
-      flexModel.body
-    ) {
-
-      return [
-        "body"
-      ];
-
-    }
-
-
-    return [];
+    return flexModel.body
+      ? ["body"]
+      : [];
 
   }
 
@@ -5808,27 +6514,16 @@ function getDefaultSelectionPath() {
     flexModel.contents?.length
   ) {
 
-    const first =
-      flexModel.contents[0];
-
-
-    if (
-      first.body
-    ) {
-
-      return [
-        "contents",
-        0,
-        "body"
-      ];
-
-    }
-
-
-    return [
-      "contents",
-      0
-    ];
+    return flexModel.contents[0].body
+      ? [
+          "contents",
+          0,
+          "body"
+        ]
+      : [
+          "contents",
+          0
+        ];
 
   }
 
@@ -5839,38 +6534,121 @@ function getDefaultSelectionPath() {
 
 
 /* ============================================================
-   PREVIEW SIZE HELPERS
+   FLEX → CSS
 ============================================================ */
 
-function flexSizeToPx(
-  size
-) {
+function flexSizeToCss(size) {
 
   const map = {
     xxs: "10px",
-    xs: "11px",
-    sm: "13px",
-    md: "15px",
-    lg: "17px",
+    xs: "12px",
+    sm: "14px",
+    md: "16px",
+    lg: "18px",
     xl: "20px",
     xxl: "24px",
-    "3xl": "28px",
-    "4xl": "32px",
-    "5xl": "36px"
+    "3xl": "30px",
+    "4xl": "40px",
+    "5xl": "48px"
   };
 
 
   return (
     map[size] ||
-    "15px"
+    "16px"
   );
 
 }
 
 
-function spacingToPx(
+/*
+ * Supports:
+ *
+ * 12px
+ * 64.2%
+ * 20px
+ * 2em
+ * 100%
+ * raw numbers
+ */
+function flexDimensionToCss(
   value
 ) {
+
+  if (
+    value === undefined ||
+    value === null ||
+    value === ""
+  ) {
+
+    return "";
+
+  }
+
+
+  if (
+    typeof value ===
+    "number"
+  ) {
+
+    return `${value}px`;
+
+  }
+
+
+  const text =
+    String(
+      value
+    ).trim();
+
+
+  if (
+    /^-?\d+(\.\d+)?(px|%|em|rem|vw|vh)$/
+      .test(
+        text
+      )
+  ) {
+
+    return text;
+
+  }
+
+
+  if (
+    /^-?\d+(\.\d+)?$/
+      .test(
+        text
+      )
+  ) {
+
+    return `${text}px`;
+
+  }
+
+
+  return text;
+
+}
+
+
+/*
+ * Supports both LINE keywords and
+ * direct px values like "24px".
+ */
+function spacingToCss(
+  value
+) {
+
+  if (
+    value === undefined ||
+    value === null ||
+    value === ""
+  ) {
+
+    return "0px";
+
+  }
+
 
   const map = {
     none: "0px",
@@ -5878,31 +6656,36 @@ function spacingToPx(
     sm: "8px",
     md: "12px",
     lg: "16px",
-    xl: "20px",
-    xxl: "28px"
+    xl: "24px",
+    xxl: "32px"
   };
 
 
+  if (
+    Object.prototype
+      .hasOwnProperty
+      .call(
+        map,
+        value
+      )
+  ) {
+
+    return map[value];
+
+  }
+
+
   return (
-    map[value] ||
+    flexDimensionToCss(
+      value
+    ) ||
     "0px"
   );
 
 }
 
 
-function marginToPx(
-  value
-) {
-
-  return spacingToPx(
-    value
-  );
-
-}
-
-
-function flexRadiusToPx(
+function flexRadiusToCss(
   value
 ) {
 
@@ -5917,9 +6700,53 @@ function flexRadiusToPx(
   };
 
 
+  if (
+    Object.prototype
+      .hasOwnProperty
+      .call(
+        map,
+        value
+      )
+  ) {
+
+    return map[value];
+
+  }
+
+
+  return (
+    flexDimensionToCss(
+      value
+    ) ||
+    "0px"
+  );
+
+}
+
+
+function flexAlignmentToCss(
+  value
+) {
+
+  const map = {
+    start: "flex-start",
+    center: "center",
+    end: "flex-end",
+
+    "space-between":
+      "space-between",
+
+    "space-around":
+      "space-around",
+
+    "space-evenly":
+      "space-evenly"
+  };
+
+
   return (
     map[value] ||
-    "0px"
+    value
   );
 
 }
@@ -5929,25 +6756,20 @@ function normalizeColor(
   color
 ) {
 
-  if (
+  return (
     /^#[0-9A-Fa-f]{6}$/
       .test(
         color
       )
-  ) {
-
-    return color;
-
-  }
-
-
-  return "#ffffff";
+  )
+    ? color
+    : "#ffffff";
 
 }
 
 
 /* ============================================================
-   STATUS TOAST
+   STATUS
 ============================================================ */
 
 let statusTimer;
@@ -5997,7 +6819,7 @@ function showStatus(
 
 
 /* ============================================================
-   START APP
+   START
 ============================================================ */
 
 init();
@@ -6005,5 +6827,4 @@ init();
 </script>
 
 </body>
-
 </html>
