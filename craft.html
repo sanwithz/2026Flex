@@ -996,230 +996,42 @@ let lineUser = {
 function createDefaultBubble() {
 
   return {
-    "type": "bubble",
-
-    "body": {
-      "type": "box",
-      "layout": "vertical",
-      "paddingAll": "24px",
-      "spacing": "none",
-
-      "contents": [
-        {
-          "type": "text",
-          "text": "เขื่อนภูมิพล",
-          "weight": "bold",
-          "size": "xxl",
-          "color": "#1E2A5A"
-        },
-
-        {
-          "type": "text",
-          "text": "แม่น้ำปิง จังหวัดตาก",
-          "size": "md",
-          "color": "#8A8A8A",
-          "margin": "sm"
-        },
-
-        {
-          "type": "box",
-          "layout": "baseline",
-          "margin": "xxl",
-
-          "contents": [
-            {
-              "type": "text",
-              "text": "64.2%",
-              "weight": "bold",
-              "size": "4xl",
-              "color": "#3F5FD1",
-              "flex": 0
-            },
-
-            {
-              "type": "text",
-              "text": "ของความจุ",
-              "size": "md",
-              "color": "#8A8A8A",
-              "margin": "md"
-            }
-          ]
-        },
-
-        {
-          "type": "box",
-          "layout": "vertical",
-          "margin": "lg",
-          "height": "12px",
-          "cornerRadius": "6px",
-          "backgroundColor": "#E6E9F5",
-
-          "contents": [
-            {
-              "type": "box",
-              "layout": "vertical",
-              "width": "64.2%",
-              "height": "12px",
-              "cornerRadius": "6px",
-              "backgroundColor": "#3F5FD1",
-              "contents": []
-            }
-          ]
-        },
-
-        {
-          "type": "box",
-          "layout": "vertical",
-          "margin": "xl",
-          "spacing": "md",
-
-          "contents": [
-            {
-              "type": "box",
-              "layout": "horizontal",
-
-              "contents": [
-                {
-                  "type": "text",
-                  "text": "น้ำในอ่าง",
-                  "size": "md",
-                  "color": "#666666",
-                  "flex": 0
-                },
-
-                {
-                  "type": "text",
-                  "text": "8,642 ล้าน ลบ.ม.",
-                  "size": "md",
-                  "color": "#333333",
-                  "align": "end"
-                }
-              ]
-            },
-
-            {
-              "type": "box",
-              "layout": "horizontal",
-
-              "contents": [
-                {
-                  "type": "text",
-                  "text": "ความจุ",
-                  "size": "md",
-                  "color": "#666666",
-                  "flex": 0
-                },
-
-                {
-                  "type": "text",
-                  "text": "13,462 ล้าน ลบ.ม.",
-                  "size": "md",
-                  "color": "#333333",
-                  "align": "end"
-                }
-              ]
-            },
-
-            {
-              "type": "box",
-              "layout": "horizontal",
-
-              "contents": [
-                {
-                  "type": "text",
-                  "text": "น้ำไหลลงอ่าง",
-                  "size": "md",
-                  "color": "#666666",
-                  "flex": 0
-                },
-
-                {
-                  "type": "text",
-                  "text": "133 ล้าน ลบ.ม./วัน",
-                  "size": "md",
-                  "color": "#333333",
-                  "align": "end"
-                }
-              ]
-            },
-
-            {
-              "type": "box",
-              "layout": "horizontal",
-
-              "contents": [
-                {
-                  "type": "text",
-                  "text": "น้ำระบาย",
-                  "size": "md",
-                  "color": "#666666",
-                  "flex": 0
-                },
-
-                {
-                  "type": "text",
-                  "text": "3 ล้าน ลบ.ม./วัน",
-                  "size": "md",
-                  "color": "#333333",
-                  "align": "end"
-                }
-              ]
-            }
-          ]
-        },
-
-        {
-          "type": "text",
-          "text": "ข้อมูลวันที่ 29 ก.ย. 2569 จาก ThaiWater",
-          "size": "xs",
-          "color": "#AAAAAA",
-          "wrap": true,
-          "margin": "xl"
+  "type": "bubble",
+  "body": {
+    "type": "box",
+    "layout": "vertical",
+    "paddingAll": "24px",
+    "spacing": "md",
+    "contents": [
+      {
+        "type": "text",
+        "text": "Hello, World!",
+        "weight": "bold",
+        "size": "xl",
+        "wrap": true,
+        "color": "#17211C"
+      },
+      {
+        "type": "text",
+        "text": "Edit this Flex Message visually.",
+        "color": "#718078",
+        "size": "sm",
+        "wrap": true
+      },
+      {
+        "type": "button",
+        "style": "primary",
+        "color": "#06C755",
+        "margin": "md",
+        "action": {
+          "type": "uri",
+          "label": "Open website",
+          "uri": "https://line.me"
         }
-      ]
-    },
-
-    "footer": {
-      "type": "box",
-      "layout": "vertical",
-      "paddingAll": "16px",
-      "spacing": "sm",
-
-      "contents": [
-        {
-          "type": "button",
-          "style": "primary",
-          "color": "#1E2A5A",
-          "height": "md",
-
-          "action": {
-            "type": "uri",
-            "label": "รายละเอียด",
-            "uri": "https://www.thaiwater.net/water/dam/large"
-          }
-        },
-
-        {
-          "type": "button",
-          "style": "link",
-          "color": "#1E2A5A",
-          "height": "sm",
-
-          "action": {
-            "type": "uri",
-            "label": "ดูบนแผนที่",
-            "uri": "https://www.google.com/maps/search/?api=1&query=17.2425,98.9722"
-          }
-        }
-      ]
-    },
-
-    "styles": {
-      "footer": {
-        "separator": true
       }
-    }
-  };
+    ]
+  }
+};
 
 }
 
